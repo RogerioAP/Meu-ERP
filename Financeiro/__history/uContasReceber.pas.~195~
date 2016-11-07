@@ -1,0 +1,323 @@
+unit uContasReceber;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.ComCtrls,
+  Vcl.StdCtrls, uTiposCobrancaCadastrados, uClientesFornecedoresCadastrados, uPlanoContasCadastradas,
+  uClassContasReceber, ACBrBoleto, ACBrBoletoFCFortesFr, ACBrBase, udmImprimir;
+
+type
+  TfrmContasReceber = class(TForm)
+    GroupBox1: TGroupBox;
+    Título: TLabel;
+    Label1: TLabel;
+    Label11: TLabel;
+    edtTitulo: TEdit;
+    edtIdTipoCobranca: TEdit;
+    edtTipoCobranca: TEdit;
+    btnSelecionarTipoCobranca: TButton;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    dtpDataEmissao: TDateTimePicker;
+    edtParcelas: TEdit;
+    dtpVencimento: TDateTimePicker;
+    edtValorTotal: TEdit;
+    GroupBox3: TGroupBox;
+    Label7: TLabel;
+    Label8: TLabel;
+    edtCliente: TEdit;
+    edtPlanoConta: TEdit;
+    btnSelecionarCliente: TButton;
+    btnSelecionaPlanoConta: TButton;
+    btnCadastrarContaPagar: TButton;
+    btnVoltar: TButton;
+    ADOCommand1: TADOCommand;
+    DataSource2: TDataSource;
+    ADOQuery1: TADOQuery;
+    edtIdCliente: TEdit;
+    Label9: TLabel;
+    Label10: TLabel;
+    edtIdPlanoContas: TEdit;
+    chkImprimir: TCheckBox;
+    procedure FormCreate(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnSelecionarTipoCobrancaClick(Sender: TObject);
+    procedure btnSelecionarClienteClick(Sender: TObject);
+    procedure btnSelecionaPlanoContaClick(Sender: TObject);
+    procedure btnCadastrarContaPagarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edtParcelasChange(Sender: TObject);
+  private
+    dm : TdmImprimir;
+    contas_receber : ClassContasReceber;
+    tipo_cobranca : TfrmTiposCobrancaCadastrados;
+    cliente : TfrmClieFornCadastrados;
+    plano : TfrmPlanoContasCadastradas;
+    function VerificarCamposNulos : boolean;
+    procedure CadastradarContaReceber;
+    procedure Imprimir;
+    procedure PegarDados;
+    procedure LoopParcelas;
+    function PegarUltimaConta : string;
+    procedure LimparCampos;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContasReceber: TfrmContasReceber;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContasReceber.btnCadastrarContaPagarClick(Sender: TObject);
+begin
+  if self.VerificarCamposNulos = true then
+    Application.MessageBox('Os campos com * não podem ser nulos!', 'Atenção',
+      MB_OK + MB_ICONEXCLAMATION)
+  else
+  begin
+    try
+      self.CadastradarContaReceber;
+
+      Application.MessageBox('Conta à Receber cadastrada com sucesso!', 'Concluído',
+        MB_OK + MB_ICONINFORMATION);
+
+      self.Imprimir;
+
+      self.LimparCampos;
+
+      edtTitulo.SetFocus;
+    except
+      on e : Exception do
+        Application.MessageBox('Não foi possível cadastrar a conta à receber!',
+          'Erro ao cadastrar', MB_OK + MB_ICONSTOP);
+    end;
+  end;
+end;
+
+procedure TfrmContasReceber.Imprimir;
+var
+  i, id : integer;
+begin
+  self.dm.ACBrBoleto1.ListadeBoletos.Clear;
+
+  if (self.chkImprimir.Checked = true) and (self.chkImprimir.Caption = 'Imprimir Boleto') then
+    self.dm.ACBrBoletoFCFortes1.LayOut := TACBrBolLayOut(0) //padrão
+  else if self.chkImprimir.Checked = true then
+    self.dm.ACBrBoletoFCFortes1.LayOut := TACBrBolLayOut(1); //carnê
+
+
+  id = 0;
+  for i := 1 to self.contas_receber.getQuantParcelas do
+  begin
+    self.dm.DadosPadrao;
+
+    self.ADOQuery1.SQL.Clear;
+    self.ADOQuery1.SQL.Add('select contas_receber.idconta_receber from contas_receber, ' +
+      '(select max(numero_conta) as "num" from contas_receber) as busca_id ' +
+	    'where contas_receber.numero_conta=busca_id.num and contas_receber.parcelas=1;');
+    self.ADOQuery1.Active := true;
+    self.dm.DadosPersonalizados(id);
+    id := id + 1;
+
+    self.dm.DadosSacado(self.contas_receber.getIdClienteFornecedor);
+    self.dm.DadosCedente;
+  end;
+
+  dm.ACBrBoleto1.Imprimir;
+end;
+
+
+function TfrmContasReceber.VerificarCamposNulos;
+begin
+  if (edtTitulo.Text = '') or (edtTipoCobranca.Text = '') or
+      (StrToInt(edtParcelas.Text) <= 0) or (StrToFloat(edtValorTotal.Text) <= 0) or
+      (edtCliente.Text = '') or (edtPlanoConta.Text = '') then
+    result := true
+  else
+    result := false;
+end;
+
+
+procedure TfrmContasReceber.CadastradarContaReceber;
+begin
+  self.PegarDados;
+
+  self.LoopParcelas;
+end;
+
+
+procedure TfrmContasReceber.edtParcelasChange(Sender: TObject);
+begin
+  if StrToInt(self.edtParcelas.Text) > 1 then
+    self.chkImprimir.Caption := 'Imprimir Carnê'
+  else
+    self.chkImprimir.Caption := 'Imprimir Boleto';
+end;
+
+procedure TfrmContasReceber.PegarDados;
+begin
+  self.contas_receber.setDataCadastro(FormatDateTime('yyyy-mm-dd', date));
+  self.contas_receber.setTitulo(edtTitulo.Text);
+  self.contas_receber.setDataEmissao(FormatDateTime('yyyy-mm-dd', dtpDataEmissao.Date));
+  self.contas_receber.setQuantParcelas(StrToInt(edtParcelas.Text));
+  self.contas_receber.setVencimento(FormatDateTime('yyyy-mm-dd', dtpVencimento.Date));
+  self.contas_receber.setValor(StrToFloat(edtValorTotal.Text));
+  self.contas_receber.setIdTipoCobranca(StrToInt(edtIdTipoCobranca.Text));
+  self.contas_receber.setIdPlanoContas(StrToInt(edtIdPlanoContas.Text));
+  self.contas_receber.setIdClienteFornecedor(StrToInt(edtIdCliente.Text));
+end;
+
+
+procedure TfrmContasReceber.LoopParcelas;
+var
+  i : integer;
+  numero_conta : string;
+  data_parcela : string;
+begin
+  //pega a data da primeira parcela
+  data_parcela := '"' + contas_receber.getVencimento + '"';
+
+  //pega o último numero_conta
+  numero_conta := '';
+  numero_conta := self.PegarUltimaConta;
+
+  i := 1;
+  while i <= contas_receber.getQuantParcelas do
+  begin
+    ADOCommand1.CommandText := '';
+
+    ADOCommand1.CommandText := 'insert into contas_receber values(null, ' +
+      numero_conta + ', "' +
+      contas_receber.getDataCadastro + '", "' +
+      contas_receber.getTitulo + '", "' +
+      contas_receber.getDataEmissao + '", ' +
+      IntToStr(i) + ', ' +
+      data_parcela + ', ' +
+      FloatToStr(contas_receber.getValor) + ', null, 0, ' +
+      IntToStr(contas_receber.getIdTipoCobranca) + ', ' +
+      IntToStr(contas_receber.getIdPlanoContas) + ', ' +
+      IntToStr(contas_receber.getIdClienteFornecedor) + ');';
+
+    ADOCommand1.Execute;
+
+    //pega a data da parcela seguinte
+    data_parcela := 'date_add("' + contas_receber.getVencimento + '", interval ' +
+      IntToStr(i) + ' month)';
+    i := i + 1;
+  end;
+end;
+
+
+function TfrmContasReceber.PegarUltimaConta;
+var
+  num_conta : string;
+begin
+  //pega o último numero_conta
+  ADOQuery1.SQL.Clear;
+  ADOQuery1.SQL.Add('select max(numero_conta) from contas_receber;');
+  ADOQuery1.Active := false;
+  ADOQuery1.Active := true;
+  num_conta := ADOQuery1.Fields[0].AsString;
+
+  if num_conta <> '' then
+    num_conta := IntToStr(StrToInt(num_conta) + 1)
+  else
+    num_conta := '1'; //ou seja, é a primeira conta
+
+  result := num_conta;
+end;
+
+
+procedure TfrmContasReceber.LimparCampos;
+begin
+  edtTitulo.Text := '';
+  edtTipoCobranca.Text := '';
+  edtIdTipoCobranca.Text := '';
+  edtParcelas.Text := '1';
+  edtValorTotal.Text := '0.00';
+  edtCliente.Text := '';
+  edtIdCliente.Text := '';
+  edtPlanoConta.Text := '';
+  edtIdPlanoContas.Text := '';
+  self.dtpDataEmissao.Date := now;
+  self.dtpVencimento.Date := now;
+end;
+
+
+procedure TfrmContasReceber.btnSelecionaPlanoContaClick(Sender: TObject);
+begin
+  self.plano.selecionar_plano := true;
+
+  self.plano.ShowModal;
+
+  edtPlanoConta.Text := self.plano.titulo;
+  edtIdPlanoContas.Text := IntToStr(self.plano.idplano);
+end;
+
+procedure TfrmContasReceber.btnSelecionarClienteClick(Sender: TObject);
+begin
+  //seleciona o CLIENTE
+  self.cliente.selecionar_forn := true;
+
+  self.cliente.ADOQuery1.SQL.Clear;
+  self.cliente.ADOQuery1.SQL.Add('select idcliente_fornecedor as "Código", ' +
+    'nome_razaosocial as "Nome/Razão Social", ' +
+    'apelido_nomefantasia as "Apelido/Nome Fantasia", ' +
+	  'cpf as "CPF", cnpj as "CNPJ", telefone as "Telefone", celular as "Celular", ' +
+    'email as "Email", ativo as "Ativo" ' +
+    'from cliente_fornecedor where ativo="S" and (tipo="C" or tipo="CF");');
+  self.cliente.ADOQuery1.Active := false;
+  self.cliente.ADOQuery1.Active := true;
+
+  self.cliente.ShowModal;
+
+  self.edtIdCliente.Text := IntToStr(self.cliente.id_fornecedor);
+  self.edtCliente.Text := self.cliente.nome_clie_forn;
+end;
+
+procedure TfrmContasReceber.btnSelecionarTipoCobrancaClick(Sender: TObject);
+begin
+
+  self.tipo_cobranca.selecionar_tc := true;
+
+  self.tipo_cobranca.ShowModal;
+
+  edtIdTipoCobranca.Text := IntToStr(self.tipo_cobranca.id_tipo);
+  edtTipoCobranca.Text := self.tipo_cobranca.tipo;
+
+end;
+
+procedure TfrmContasReceber.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmContasReceber.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  self.contas_receber.dContasPagar;
+  self.tipo_cobranca.Destroy;
+  self.cliente.Destroy;
+  self.plano.Destroy;
+end;
+
+procedure TfrmContasReceber.FormCreate(Sender: TObject);
+begin
+  self.plano := TfrmPlanoContasCadastradas.Create(nil);
+  self.cliente := TfrmClieFornCadastrados.Create(nil);
+  self.contas_receber := ClassContasReceber.cContasPagar;
+  self.tipo_cobranca := TfrmTiposCobrancaCadastrados.Create(nil);
+  self.dtpDataEmissao.Date := now;
+  self.dtpVencimento.Date := now;
+  dm := TdmImprimir.Create(nil);
+end;
+
+end.

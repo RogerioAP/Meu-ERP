@@ -1,0 +1,380 @@
+object frmClientesFornecedores: TfrmClientesFornecedores
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Cliente/Fornecedor'
+  ClientHeight = 394
+  ClientWidth = 557
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnCadastrar: TButton
+    Left = 200
+    Top = 356
+    Width = 75
+    Height = 25
+    Caption = 'Cadastrar'
+    TabOrder = 0
+    OnClick = btnCadastrarClick
+  end
+  object btnVoltar: TButton
+    Left = 281
+    Top = 356
+    Width = 75
+    Height = 25
+    Caption = 'Voltar'
+    TabOrder = 1
+    OnClick = btnVoltarClick
+  end
+  object PageControl1: TPageControl
+    Left = 8
+    Top = 8
+    Width = 541
+    Height = 335
+    ActivePage = TabSheet1
+    TabOrder = 2
+    object TabSheet1: TTabSheet
+      Caption = 'Identifica'#231#227'o'
+      ExplicitTop = 32
+      ExplicitWidth = 281
+      ExplicitHeight = 165
+      object Label1: TLabel
+        Left = 73
+        Top = 101
+        Width = 95
+        Height = 13
+        Caption = 'Nome/Raz'#227'o Social:'
+      end
+      object Label2: TLabel
+        Left = 54
+        Top = 147
+        Width = 114
+        Height = 13
+        Caption = 'Apelido/Nome Fantasia:'
+      end
+      object Label3: TLabel
+        Left = 16
+        Top = 195
+        Width = 152
+        Height = 13
+        Caption = '* Grupo do Cliente/Fornecedor:'
+      end
+      object lblCPF: TLabel
+        Left = 145
+        Top = 246
+        Width = 23
+        Height = 13
+        Caption = 'CPF:'
+      end
+      object Label5: TLabel
+        Left = 354
+        Top = 62
+        Width = 38
+        Height = 13
+        Caption = 'Pessoa:'
+      end
+      object lblCNPJ: TLabel
+        Left = 139
+        Top = 246
+        Width = 29
+        Height = 13
+        Caption = 'CNPJ:'
+        Visible = False
+      end
+      object Label15: TLabel
+        Left = 50
+        Top = 217
+        Width = 54
+        Height = 13
+        Caption = 'idGrupoCF:'
+        Visible = False
+      end
+      object Label16: TLabel
+        Left = 135
+        Top = 62
+        Width = 33
+        Height = 13
+        Caption = '* Tipo:'
+      end
+      object edtNome: TEdit
+        Left = 174
+        Top = 98
+        Width = 344
+        Height = 21
+        TabOrder = 0
+      end
+      object edtApelido: TEdit
+        Left = 174
+        Top = 144
+        Width = 344
+        Height = 21
+        TabOrder = 1
+      end
+      object rdbFisica: TRadioButton
+        Left = 398
+        Top = 61
+        Width = 57
+        Height = 17
+        Caption = 'F'#237'sica'
+        Checked = True
+        TabOrder = 2
+        TabStop = True
+        OnClick = rdbFisicaClick
+      end
+      object rdbJuridica: TRadioButton
+        Left = 461
+        Top = 61
+        Width = 57
+        Height = 17
+        Caption = 'Juri'#237'dica'
+        TabOrder = 3
+        OnClick = rdbJuridicaClick
+      end
+      object chkCliente: TCheckBox
+        Left = 174
+        Top = 61
+        Width = 61
+        Height = 17
+        Caption = 'Cliente'
+        TabOrder = 4
+      end
+      object chkFornecedor: TCheckBox
+        Left = 241
+        Top = 61
+        Width = 73
+        Height = 17
+        Caption = 'Fornecedor'
+        TabOrder = 5
+      end
+      object edtGrupoCF: TEdit
+        Left = 174
+        Top = 192
+        Width = 263
+        Height = 21
+        Enabled = False
+        TabOrder = 6
+      end
+      object Button1: TButton
+        Left = 443
+        Top = 190
+        Width = 75
+        Height = 25
+        Caption = 'Selecionar...'
+        TabOrder = 7
+        OnClick = Button1Click
+      end
+      object edtCPF: TEdit
+        Left = 174
+        Top = 243
+        Width = 263
+        Height = 21
+        TabOrder = 8
+      end
+      object edtCNPJ: TEdit
+        Left = 174
+        Top = 243
+        Width = 263
+        Height = 21
+        TabOrder = 9
+        Visible = False
+      end
+      object edtIdGrupoCF: TEdit
+        Left = 110
+        Top = 214
+        Width = 45
+        Height = 21
+        TabOrder = 10
+        Visible = False
+      end
+      object chkAtivo: TCheckBox
+        Left = 174
+        Top = 14
+        Width = 61
+        Height = 17
+        Caption = 'Ativo'
+        Checked = True
+        State = cbChecked
+        TabOrder = 11
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Endere'#231'o/Contato'
+      ImageIndex = 1
+      ExplicitWidth = 541
+      ExplicitHeight = 300
+      object GroupBox2: TGroupBox
+        Left = 44
+        Top = 11
+        Width = 444
+        Height = 170
+        Caption = 'Endere'#231'o'
+        TabOrder = 0
+        object Label4: TLabel
+          Left = 33
+          Top = 33
+          Width = 49
+          Height = 13
+          Caption = 'Endere'#231'o:'
+        end
+        object Label6: TLabel
+          Left = 41
+          Top = 67
+          Width = 41
+          Height = 13
+          Caption = 'N'#250'mero:'
+        end
+        object Label7: TLabel
+          Left = 249
+          Top = 67
+          Width = 32
+          Height = 13
+          Caption = 'Bairro:'
+        end
+        object Label11: TLabel
+          Left = 45
+          Top = 101
+          Width = 37
+          Height = 13
+          Caption = 'Cidade:'
+        end
+        object Label12: TLabel
+          Left = 352
+          Top = 101
+          Width = 17
+          Height = 13
+          Caption = 'UF:'
+        end
+        object Label13: TLabel
+          Left = 13
+          Top = 135
+          Width = 69
+          Height = 13
+          Caption = 'Complemento:'
+        end
+        object Label14: TLabel
+          Left = 290
+          Top = 135
+          Width = 23
+          Height = 13
+          Caption = 'CEP:'
+        end
+        object edtEndereco: TEdit
+          Left = 88
+          Top = 30
+          Width = 344
+          Height = 21
+          TabOrder = 0
+        end
+        object edtNumero: TEdit
+          Left = 88
+          Top = 64
+          Width = 145
+          Height = 21
+          TabOrder = 1
+        end
+        object edtBairro: TEdit
+          Left = 287
+          Top = 64
+          Width = 145
+          Height = 21
+          TabOrder = 2
+        end
+        object edtCidade: TEdit
+          Left = 88
+          Top = 98
+          Width = 249
+          Height = 21
+          TabOrder = 3
+        end
+        object edtEstado: TEdit
+          Left = 375
+          Top = 98
+          Width = 57
+          Height = 21
+          TabOrder = 4
+        end
+        object edtComplemento: TEdit
+          Left = 88
+          Top = 132
+          Width = 197
+          Height = 21
+          TabOrder = 5
+        end
+        object edtCEP: TEdit
+          Left = 319
+          Top = 132
+          Width = 113
+          Height = 21
+          TabOrder = 6
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 44
+        Top = 184
+        Width = 444
+        Height = 113
+        Caption = 'Contato'
+        TabOrder = 1
+        object Label8: TLabel
+          Left = 36
+          Top = 31
+          Width = 46
+          Height = 13
+          Caption = 'Telefone:'
+        end
+        object Label9: TLabel
+          Left = 229
+          Top = 31
+          Width = 37
+          Height = 13
+          Caption = 'Celular:'
+        end
+        object Label10: TLabel
+          Left = 54
+          Top = 71
+          Width = 28
+          Height = 13
+          Caption = 'Email:'
+        end
+        object edtTelefone: TEdit
+          Left = 88
+          Top = 28
+          Width = 126
+          Height = 21
+          TabOrder = 0
+        end
+        object edtCelular: TEdit
+          Left = 272
+          Top = 28
+          Width = 161
+          Height = 21
+          TabOrder = 1
+        end
+        object edtEmail: TEdit
+          Left = 88
+          Top = 68
+          Width = 345
+          Height = 21
+          TabOrder = 2
+        end
+      end
+    end
+  end
+  object ADOCommand1: TADOCommand
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=123456;Persist Security Info=True;Us' +
+      'er ID=root;Data Source=MeuERP'
+    Parameters = <>
+    Left = 457
+    Top = 334
+  end
+end

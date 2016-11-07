@@ -1,0 +1,87 @@
+unit uClassBancos;
+
+interface
+
+type ClassBancos = class
+  private
+    idbanco : integer;
+    codigo : string;
+    nome : string;
+    ativo : char;
+  public
+    constructor cBancos;
+    destructor dBancos;
+
+    procedure setIdBanco(pIdBanco : integer);
+    procedure setCodigo(pCodigo : string);
+    procedure setNome(pNome : string);
+    procedure setAtivo(pAtivo : char);
+
+    function getIdBanco : integer;
+    function getCodigo : string;
+    function getNome : string;
+    function getAtivo : char;
+end;
+
+implementation
+
+{ ClassBancos }
+
+constructor ClassBancos.cBancos;
+begin
+  self.idbanco := 0;
+  self.codigo := '';
+  self.nome := '';
+  self.ativo := 'S';
+end;
+
+destructor ClassBancos.dBancos;
+begin
+
+end;
+
+
+//GETS
+function ClassBancos.getAtivo: char;
+begin
+  result := self.ativo;
+end;
+
+function ClassBancos.getCodigo: string;
+begin
+  result := self.codigo;
+end;
+
+function ClassBancos.getIdBanco: integer;
+begin
+  result := self.idbanco;
+end;
+
+function ClassBancos.getNome: string;
+begin
+  result := self.nome;
+end;
+
+
+//SETS
+procedure ClassBancos.setAtivo(pAtivo: char);
+begin
+  self.ativo := pAtivo;
+end;
+
+procedure ClassBancos.setCodigo(pCodigo: string);
+begin
+  self.codigo := pCodigo;
+end;
+
+procedure ClassBancos.setIdBanco(pIdBanco: integer);
+begin
+  self.idbanco := pIdBanco;
+end;
+
+procedure ClassBancos.setNome(pNome: string);
+begin
+  self.nome := pNome;
+end;
+
+end.

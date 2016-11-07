@@ -1,0 +1,230 @@
+unit uClassContasPagar;
+
+interface
+
+type ClassContasPagar = class
+  private
+    idcontas_pagar : integer;
+    data_cadastro : string;
+    titulo : string;
+    descricao : string;
+    data_emissao : string;
+    quant_parcelas : integer;
+    vencimento : string;
+    valor : double;
+    a_pagar : double;
+    pago_em : string;
+    valor_pago : double;
+    idtipo_cobranca : integer;
+    idplano_contas : integer;
+    idtipo_pagamento : integer;
+    idcliente_fornecedor : integer;
+  public
+    constructor cContasPagar;
+    destructor dContasPagar;
+
+    procedure setIdContasPagar(pIdContasPagar : integer);
+    procedure setDataCadastro(pDataCadastro : string);
+    procedure setTitulo(pTitulo : string);
+    procedure setDescricao(pDescricao : string);
+    procedure setDataEmissoa(pDataEmissao : string);
+    procedure setQuantParcelas(pQuantParcelas : integer);
+    procedure setVencimento(pVencimento : string);
+    procedure setValor(pValor : double);
+    procedure setAPagar(pAPagar : double);
+    procedure setPagoEm(pPagoEm : string);
+    procedure setValorPago(pValorPago : double);
+    procedure setIdTipoCobranca(pIdTipoCobranca : integer);
+    procedure setIdPlanoCobranca(pIdPlanoCobranca : integer);
+    procedure setIdTipoPagamento(pIdTipoPagamento : integer);
+    procedure setIdClienteFornecedor(pIdClienteFornecedor : integer);
+
+    function getIdContasPagar : integer;
+    function getDataCadastro : string;
+    function getTitulo : string;
+    function getDescricao : string;
+    function getDataEmissao : string;
+    function getQuantParcelas : integer;
+    function getVencimento : string;
+    function getValor : double;
+    function getAPagar : double;
+    function getPagoEm : string;
+    function getValorPago : double;
+    function getIdTipoCobranca : integer;
+    function getIdPlanoCobranca : integer;
+    function getIdTipoPagamento : integer;
+    function getIdClienteFornecedor : integer;
+end;
+
+implementation
+
+{ ClassContasPagar }
+
+
+constructor ClassContasPagar.cContasPagar;
+begin
+
+end;
+
+
+destructor ClassContasPagar.dContasPagar;
+begin
+
+end;
+
+
+//GET
+function ClassContasPagar.getAPagar: double;
+begin
+
+end;
+
+function ClassContasPagar.getDataCadastro: string;
+begin
+
+end;
+
+function ClassContasPagar.getDataEmissao: string;
+begin
+
+end;
+
+function ClassContasPagar.getDescricao: string;
+begin
+
+end;
+
+function ClassContasPagar.getIdClienteFornecedor: integer;
+begin
+
+end;
+
+function ClassContasPagar.getIdContasPagar: integer;
+begin
+
+end;
+
+function ClassContasPagar.getIdPlanoCobranca: integer;
+begin
+
+end;
+
+function ClassContasPagar.getIdTipoCobranca: integer;
+begin
+
+end;
+
+function ClassContasPagar.getIdTipoPagamento: integer;
+begin
+
+end;
+
+function ClassContasPagar.getPagoEm: string;
+begin
+
+end;
+
+function ClassContasPagar.getQuantParcelas: integer;
+begin
+
+end;
+
+function ClassContasPagar.getTitulo: string;
+begin
+
+end;
+
+function ClassContasPagar.getValor: double;
+begin
+
+end;
+
+function ClassContasPagar.getValorPago: double;
+begin
+
+end;
+
+function ClassContasPagar.getVencimento: string;
+begin
+
+end;
+
+
+//SET
+procedure ClassContasPagar.setAPagar(pAPagar: double);
+begin
+
+end;
+
+procedure ClassContasPagar.setDataCadastro(pDataCadastro: string);
+begin
+
+end;
+
+procedure ClassContasPagar.setDataEmissoa(pDataEmissao: string);
+begin
+
+end;
+
+procedure ClassContasPagar.setDescricao(pDescricao: string);
+begin
+
+end;
+
+procedure ClassContasPagar.setIdClienteFornecedor(
+  pIdClienteFornecedor: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setIdContasPagar(pIdContasPagar: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setIdPlanoCobranca(pIdPlanoCobranca: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setIdTipoCobranca(pIdTipoCobranca: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setIdTipoPagamento(pIdTipoPagamento: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setPagoEm(pPagoEm: string);
+begin
+
+end;
+
+procedure ClassContasPagar.setQuantParcelas(pQuantParcelas: integer);
+begin
+
+end;
+
+procedure ClassContasPagar.setTitulo(pTitulo: string);
+begin
+
+end;
+
+procedure ClassContasPagar.setValor(pValor: double);
+begin
+
+end;
+
+procedure ClassContasPagar.setValorPago(pValorPago: double);
+begin
+
+end;
+
+procedure ClassContasPagar.setVencimento(pVencimento: string);
+begin
+
+end;
+
+end.

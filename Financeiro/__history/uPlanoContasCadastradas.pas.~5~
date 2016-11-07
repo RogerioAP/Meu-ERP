@@ -1,0 +1,67 @@
+unit uPlanoContasCadastradas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, uPlanoContas;
+
+type
+  TfrmPlanoContasCadastradas = class(TForm)
+    DBGrid1: TDBGrid;
+    btnVoltar: TButton;
+    ADOTable1: TADOTable;
+    DataSource1: TDataSource;
+    ADOTable1idplano_contas: TAutoIncField;
+    ADOTable1sequencia: TIntegerField;
+    ADOTable1titulo: TWideStringField;
+    ADOTable1ativo: TWideStringField;
+    btnNovo: TButton;
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+  private
+    plano : TfrmPlanoContas;
+  public
+    selecionar_plano : boolean;
+    idplano : integer;
+    titulo : string;
+  end;
+
+var
+  frmPlanoContasCadastradas: TfrmPlanoContasCadastradas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPlanoContasCadastradas.btnNovoClick(Sender: TObject);
+begin
+  self.plano := TfrmPlanoContas.Create(nil);
+  self.plano.ShowModal;
+  self.plano.Destroy;
+
+  self.ADOTable1.Active := false;
+  self.ADOTable1.Active := true;
+end;
+
+procedure TfrmPlanoContasCadastradas.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmPlanoContasCadastradas.DBGrid1CellClick(Column: TColumn);
+begin
+  if selecionar_plano = true then
+  begin
+    self.idplano := StrToInt(DBGrid1.Fields[0].AsString);
+    self.titulo := DBGrid1.Fields[2].AsString;
+
+    self.selecionar_plano := false;
+
+    self.Close;
+  end;
+end;
+
+end.

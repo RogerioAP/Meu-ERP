@@ -1,0 +1,30 @@
+unit uCadastroClienteFornecedor;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TfrmCadastrarClienteFornecedor = class(TForm)
+    Label1: TLabel;
+    edtNome: TEdit;
+    Label2: TLabel;
+    Edit1: TEdit;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastrarClienteFornecedor: TfrmCadastrarClienteFornecedor;
+
+implementation
+
+{$R *.dfm}
+
+end.

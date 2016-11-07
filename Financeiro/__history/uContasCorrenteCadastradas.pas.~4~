@@ -1,0 +1,36 @@
+unit uContasCorrenteCadastradas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, uContasCorrente, Data.DB,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmContasCorrenteCadastradas = class(TForm)
+    btnNova: TButton;
+    btnVoltar: TButton;
+    DBGrid1: TDBGrid;
+    procedure btnNovaClick(Sender: TObject);
+  private
+    contas_corrente : TfrmContasCorrente;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContasCorrenteCadastradas: TfrmContasCorrenteCadastradas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContasCorrenteCadastradas.btnNovaClick(Sender: TObject);
+begin
+  self.contas_corrente := TfrmContasCorrente.Create(nil);
+  self.contas_corrente.ShowModal;
+  self.contas_corrente.Destroy;
+end;
+
+end.

@@ -1,0 +1,70 @@
+unit uClassGrupoCF;
+
+interface
+
+//Grupo Cliente/Fornecedor
+type ClassGrupoCF = class
+  private
+    idgrupocf : integer;
+    nome : string;
+    ativo : char;
+  public
+    constructor cGrupoCF;
+    destructor dGrupoCF;
+
+    procedure setIdGrupoCF(pIdGrupoCF : integer);
+    procedure setNome(pNome : string);
+    procedure setAtivo(pAtivo : char);
+
+    function getIdGrupoCF : integer;
+    function getNome : string;
+    function getAtivo : char;
+end;
+
+implementation
+
+{ ClassGrupoCF }
+
+constructor ClassGrupoCF.cGrupoCF;
+begin
+  idgrupocf := 0;
+  nome := '';
+  ativo := '';
+end;
+
+destructor ClassGrupoCF.dGrupoCF;
+begin
+
+end;
+
+function ClassGrupoCF.getAtivo: char;
+begin
+
+end;
+
+function ClassGrupoCF.getIdGrupoCF: integer;
+begin
+
+end;
+
+function ClassGrupoCF.getNome: string;
+begin
+
+end;
+
+procedure ClassGrupoCF.setAtivo(pAtivo: char);
+begin
+
+end;
+
+procedure ClassGrupoCF.setIdGrupoCF(pIdGrupoCF: integer);
+begin
+
+end;
+
+procedure ClassGrupoCF.setNome(pNome: string);
+begin
+
+end;
+
+end.

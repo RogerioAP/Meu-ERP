@@ -1,0 +1,22 @@
+object dmImprimir: TdmImprimir
+  OldCreateOrder = False
+  Height = 150
+  Width = 215
+  object ACBrBoleto1: TACBrBoleto
+    Banco.Numero = 341
+    Banco.TamanhoMaximoNossoNum = 8
+    Banco.TipoCobranca = cobItau
+    Cedente.TipoInscricao = pJuridica
+    NumeroArquivo = 0
+    ACBrBoletoFC = ACBrBoletoFCFortes1
+    Left = 48
+    Top = 16
+  end
+  object ACBrBoletoFCFortes1: TACBrBoletoFCFortes
+    ACBrBoleto = ACBrBoleto1
+    DirLogo = '..\..\img'
+    SoftwareHouse = 'A Empresa'
+    Left = 120
+    Top = 72
+  end
+end

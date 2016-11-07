@@ -1,0 +1,59 @@
+unit uClassContasReceber;
+
+interface
+
+type ClassContasReceber = class
+  private
+    idcontas_receber : integer;
+    data_cadastro : string;
+    titulo : string;
+    data_emissao : string;
+    quant_parcelas : integer;
+    vencimento : string;
+    valor : double;
+    pago_em : string;
+    valor_pago : double;
+    idtipo_cobranca : integer;
+    idplano_contas : integer;
+    idtipo_pagamento : integer;
+    idcliente_fornecedor : integer;
+  public
+    constructor cContasPagar;
+    destructor dContasPagar;
+
+    procedure setIdContasPagar(pIdContasPagar : integer);
+    procedure setDataCadastro(pDataCadastro : string);
+    procedure setTitulo(pTitulo : string);
+    procedure setDescricao(pDescricao : string);
+    procedure setDataEmissao(pDataEmissao : string);
+    procedure setQuantParcelas(pQuantParcelas : integer);
+    procedure setVencimento(pVencimento : string);
+    procedure setValor(pValor : double);
+    procedure setPagoEm(pPagoEm : string);
+    procedure setValorPago(pValorPago : double);
+    procedure setIdTipoCobranca(pIdTipoCobranca : integer);
+    procedure setIdPlanoContas(pIdPlanoContas : integer);
+    procedure setIdTipoPagamento(pIdTipoPagamento : integer);
+    procedure setIdClienteFornecedor(pIdClienteFornecedor : integer);
+
+    function getIdContasPagar : integer;
+    function getDataCadastro : string;
+    function getTitulo : string;
+    function getDescricao : string;
+    function getDataEmissao : string;
+    function getQuantParcelas : integer;
+    function getVencimento : string;
+    function getValor : double;
+    function getPagoEm : string;
+    function getValorPago : double;
+    function getIdTipoCobranca : integer;
+    function getIdPlanoContas : integer;
+    function getIdTipoPagamento : integer;
+    function getIdClienteFornecedor : integer;
+end;
+
+implementation
+
+{ ClassContasPagar }
+
+end.

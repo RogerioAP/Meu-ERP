@@ -1,0 +1,111 @@
+unit udmImprimir;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, ACBrBoleto, ACBrBoletoFCFortesFr, ACBrBase,
+  Data.DB, Data.Win.ADODB;
+
+type
+  TdmImprimir = class(TDataModule)
+    ACBrBoleto1: TACBrBoleto;
+    ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
+    ADOQuery1: TADOQuery;
+    ADOConnection1: TADOConnection;
+  private
+    titulo : TACBrTitulo;
+  public
+    procedure DadosPadrao;
+    procedure DadosPersonalizados(idconta_receber : integer);
+    procedure DadosSacado(idcliente : integer); //pega os dados do BD
+    procedure DadosCedente; //pega os dados do BD
+  end;
+
+var
+  dmImprimir: TdmImprimir;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmImprimir }
+
+procedure TdmImprimir.DadosPadrao;
+begin
+  titulo := ACBrBoleto1.CriarTituloNaLista;
+
+  with titulo do
+  begin
+    DataDocumento := now;
+    EspecieDoc := 'DM';
+    Aceite := atNao;
+    LocalPagamento := 'Pagar preferencialmente no Itaú';
+
+    MultaValorFixo := true;
+    PercentualMulta := StrToCurrDef('5', 0);
+    Carteira := '09';
+    NossoNumero := '04040303';
+  end;
+end;
+
+procedure TdmImprimir.DadosPersonalizados(sql);
+begin
+  {self.ADOQuery1.SQL.Clear;
+  self.ADOQuery1.SQL.Add('select valor, vencimento from contas_receber where idconta_receber=' +
+    IntToStr(idconta_receber));
+  self.ADOQuery1.Active := true;}
+  self.ADOQuery1.SQL.Clear;
+  self.ADOQuery1.SQL.Add('select valor, vencimento from contas_receber where idconta_receber=' +
+    IntToStr(idconta_receber));
+  self.ADOQuery1.Active := true;
+
+  with titulo do
+  begin
+    ValorDocumento := StrToCurr(self.ADOQuery1.Fields[0].AsString);
+    Vencimento := StrToDate(self.ADOQuery1.Fields[1].AsString);
+    NumeroDocumento := '123546';
+    DataProcessamento := now;
+  end;
+end;
+
+procedure TdmImprimir.DadosSacado(idcliente : integer);
+begin
+  self.ADOQuery1.SQL.Clear;
+  self.ADOQuery1.SQL.Add('select nome_razaosocial, cpf, endereco, numero, bairro, ' +
+    'cidade, estado, cep from cliente_fornecedor where idcliente_fornecedor=' +
+    IntToStr(idcliente) + ';');
+  self.ADOQuery1.Active := true;
+
+  with titulo do
+  begin
+    Sacado.NomeSacado := self.ADOQuery1.Fields[0].AsString;
+    Sacado.CNPJCPF := self.ADOQuery1.Fields[1].AsString;
+    Sacado.Logradouro := self.ADOQuery1.Fields[2].AsString;
+    Sacado.Numero := self.ADOQuery1.Fields[3].AsString;
+    Sacado.Bairro := self.ADOQuery1.Fields[4].AsString;
+    Sacado.Cidade := self.ADOQuery1.Fields[5].AsString;
+    Sacado.UF := self.ADOQuery1.Fields[6].AsString;
+    Sacado.CEP := self.ADOQuery1.Fields[7].AsString;
+  end;
+end;
+
+procedure TdmImprimir.DadosCedente;
+begin
+  self.ADOQuery1.SQL.Clear;
+  self.ADOQuery1.SQL.Add('select nome, agencia, digito_agencia, conta, digito_conta from conta_corrente where impressao_boleto="S";');
+  self.ADOQuery1.Active := true;
+
+  with titulo do
+  begin
+    ACBrBoleto1.Cedente.Nome := self.ADOQuery1.Fields[0].AsString;
+    ACBrBoleto1.Cedente.Agencia := self.ADOQuery1.Fields[1].AsString;
+    ACBrBoleto1.Cedente.AgenciaDigito := self.ADOQuery1.Fields[2].AsString;
+    ACBrBoleto1.Cedente.Conta := self.ADOQuery1.Fields[3].AsString;
+    ACBrBoleto1.Cedente.ContaDigito := self.ADOQuery1.Fields[4].AsString;
+  end;
+end;
+
+
+end.

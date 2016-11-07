@@ -1,0 +1,20 @@
+unit uClassBancos;
+
+interface
+
+type ClassBancos = class
+  private
+    idbanco : integer;
+    codigo : integer;
+    nome : string;
+    ativo : char;
+  public
+    constructor cBancos;
+    destructor dBancos;
+
+    procedure
+end;
+
+implementation
+
+end.

@@ -1,0 +1,59 @@
+unit uBancosCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Data.Win.ADODB, uBancos;
+
+type
+  TfrmBancosCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    btnNovo: TButton;
+    btnVoltar: TButton;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+  private
+  public
+    bancos : TfrmBancos;
+    selecionar : boolean;
+    idbanco : integer;
+    nome_banco : string;
+  end;
+
+var
+  frmBancosCadastrados: TfrmBancosCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmBancosCadastrados.btnNovoClick(Sender: TObject);
+begin
+  self.bancos := TfrmBancos.Create(nil);
+  self.bancos.ShowModal;
+  self.bancos.Destroy;
+
+  self.ADOQuery1.Active := false;
+  self.ADOQuery1.Active := true;
+end;
+
+procedure TfrmBancosCadastrados.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmBancosCadastrados.DBGrid1CellClick(Column: TColumn);
+begin
+  if self.selecionar = true then
+  begin
+    self.idbanco := DBGrid1
+  end;
+end;
+
+end.

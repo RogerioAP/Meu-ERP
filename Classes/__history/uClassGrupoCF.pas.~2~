@@ -1,0 +1,13 @@
+unit uClassGrupoCF;
+
+interface
+
+type ClassGrupoCF = class
+  private
+
+  public
+end;
+
+implementation
+
+end.

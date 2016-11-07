@@ -1,0 +1,20 @@
+unit uClassGrupoCF;
+
+interface
+
+//Grupo Cliente/Fornecedor
+type ClassGrupoCF = class
+  private
+    idgrupocf : integer;
+    nome : string;
+    ativo : char;
+  public
+    constructor cGrupoCF;
+    destructor dGrupoCF;
+
+    procedure IdGrupoCF
+end;
+
+implementation
+
+end.

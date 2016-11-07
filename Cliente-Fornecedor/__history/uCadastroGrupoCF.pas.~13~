@@ -1,0 +1,69 @@
+unit uCadastroGrupoCF;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  uClassGrupoCF, Data.Win.ADODB;
+
+type
+  TfrmCadastroGrupoCF = class(TForm)
+    Label1: TLabel;
+    edtNome: TEdit;
+    chkAtivo: TCheckBox;
+    btnCadastrar: TButton;
+    btnVoltar: TButton;
+    ADOCommand1: TADOCommand;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnCadastrarClick(Sender: TObject);
+  private
+    grupocf : ClassGrupoCF;
+    procedure CadastrarGrupoCF;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastroGrupoCF: TfrmCadastroGrupoCF;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastroGrupoCF.btnCadastrarClick(Sender: TObject);
+begin
+  self.CadastrarGrupoCF;
+end;
+
+procedure TfrmCadastroGrupoCF.CadastrarGrupoCF;
+begin
+  if self.edtNome.Text = '' then
+    ShowMessage('Preencha o campo em branco!')
+  else
+  begin
+    grupocf.setNome(edtNome.Text);
+
+    if chkAtivo.Checked = true then
+      ADOCommand1.CommandText :=
+        'insert into grupo_cliente_fornecedor values(null, "' + grupocf.getNome + '", "S");'
+    else
+      ADOCommand1.CommandText :=
+        'insert into grupo_cliente_fornecedor values(null, "' + grupocf.getNome + '", "N");';
+
+    ADOCommand1.Execute;
+
+    edtNome.Text := '';
+
+    ShowMessage('Grupo de Cliente/Fornecedor adicionado com sucesso!');
+
+    edtNome.SetFocus;
+  end;
+end;
+
+procedure TfrmCadastroGrupoCF.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+end.

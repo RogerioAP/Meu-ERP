@@ -1,0 +1,105 @@
+unit uGruposCFCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Data.Win.ADODB, uGruposCF;
+
+type
+  TfrmGruposCFCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    Button1: TButton;
+    ADOTable1: TADOTable;
+    DataSource1: TDataSource;
+    ADOTable1idgrupo_cliente_fornecedor: TAutoIncField;
+    ADOTable1nome: TWideStringField;
+    ADOTable1ativo: TWideStringField;
+    btnNovo: TButton;
+    btnExcluir: TButton;
+    ADOCommand1: TADOCommand;
+    procedure Button1Click(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure FormCreate(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+  private
+    grupos_cf : TfrmGruposCF;
+    procedure ExcluirGrupoCF;
+  public
+    selecionar : boolean;
+    idselecionado : integer;
+    nomeselecionado : string;
+  end;
+
+var
+  frmGruposCFCadastrados: TfrmGruposCFCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmGruposCFCadastrados.btnExcluirClick(Sender: TObject);
+begin
+  if DBGrid1.Fields[0].AsString <> '' then
+    self.ExcluirGrupoCF;
+end;
+
+
+procedure TfrmGruposCFCadastrados.ExcluirGrupoCF;
+begin
+  ADOCommand1.CommandText :=
+    'delete from grupo_cliente_fornecedor where idgrupo_cliente_fornecedor=' +
+    DBGrid1.Fields[0].AsString + ';';
+
+  try
+  begin
+    ADOCommand1.Execute;
+
+    Application.MessageBox('Grupo de Cliente/Fornecedor excluído com sucesso!',
+      'Concluído', MB_OK + MB_ICONINFORMATION);
+
+    ADOTable1.Active := false;
+    ADOTable1.Active := true;
+  end;
+  except
+    on e : Exception do
+      Application.MessageBox('Não foi possível excluir o dado selecionado'#10'porque ele tem relação com outro dado cadastrado!',
+        'Erro ao excluir', MB_OK + MB_ICONSTOP);
+  end;
+
+end;
+
+
+procedure TfrmGruposCFCadastrados.btnNovoClick(Sender: TObject);
+begin
+  self.grupos_cf.ShowModal;
+
+  ADOTable1.Active := false;
+  ADOTable1.Active := true;
+end;
+
+procedure TfrmGruposCFCadastrados.Button1Click(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmGruposCFCadastrados.DBGrid1CellClick(Column: TColumn);
+begin
+  if (self.selecionar = true) and (DBGrid1.Fields[0].AsString <> '') then
+  begin
+    self.idselecionado := StrToInt(DBGrid1.Fields[0].AsString);
+    self.nomeselecionado := DBGrid1.Fields[1].AsString;
+
+    self.Close;
+  end;
+end;
+
+procedure TfrmGruposCFCadastrados.FormCreate(Sender: TObject);
+begin
+  self.selecionar := false;
+  self.grupos_cf := TfrmGruposCF.Create(nil);
+end;
+
+end.

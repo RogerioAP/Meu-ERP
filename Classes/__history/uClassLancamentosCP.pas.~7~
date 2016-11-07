@@ -1,0 +1,128 @@
+unit uClassLancamentosCP;
+
+interface
+
+type ClassLancamentosCP = class
+  private
+    idlancamentoCP : integer;
+    idconta_pagar : integer;
+    data_pagamento : string;
+    idconta_corrente : integer;
+    idtipo_pagamento : integer;
+    valor_pago : double;
+    observacao : string;
+  public
+    constructor cLancamentosCP;
+    destructor dLancamentosCP;
+
+    procedure setIdLancamentoCP(pIdLancamentoCP : integer);
+    procedure setIdContaPagar(pIdContaReceber : integer);
+    procedure setDataPagamento(pDataReceber : string);
+    procedure setIdContaCorrente(pContaCorrente : integer);
+    procedure setIdTipoPagamento(pIdTipoPagamento : integer);
+    procedure setValorPago(pValorRecebido : double);
+    procedure setObservacao(pObservacao : string);
+
+    function getIdLancamentoCP : integer;
+    function getIdContaPagar : integer;
+    function getDataPagamento : string;
+    function getIdContaCorrente : integer;
+    function getIdTipoPagamento : integer;
+    function getValorPago : double;
+    function getObservacao : string;
+end;
+
+implementation
+
+{ LancamentosCP }
+
+constructor ClassLancamentosCP.cLancamentosCP;
+begin
+  self.idlancamentoCP := 0;
+  self.idconta_receber := 0;
+  self.data_recebimento := '';
+  self.idconta_corrente := 0;
+  self.idtipo_pagamento := 0;
+  self.valor_recebido := 0;
+  self.observacao := '';
+end;
+
+destructor ClassLancamentosCP.dLancamentosCP;
+begin
+
+end;
+
+//GETS
+function ClassLancamentosCP.getDataRecebimento: string;
+begin
+  result := self.data_recebimento;
+end;
+
+function ClassLancamentosCP.getIdContaCorrente: integer;
+begin
+  result := self.idconta_corrente;
+end;
+
+function ClassLancamentosCP.getIdContaReceber: integer;
+begin
+  result := self.idconta_receber;
+end;
+
+function ClassLancamentosCP.getIdLancamentoCP: integer;
+begin
+  result := self.idlancamentoCP;
+end;
+
+function ClassLancamentosCP.getIdTipoPagamento: integer;
+begin
+  result := self.idtipo_pagamento;
+end;
+
+function ClassLancamentosCP.getObservacao: string;
+begin
+  result := self.getObservacao;
+end;
+
+function ClassLancamentosCP.getValorRecebido: double;
+begin
+  result := self.getValorRecebido;
+end;
+
+
+//SETS
+procedure ClassLancamentosCP.setDataRecebimento(pDataReceber: string);
+begin
+  self.data_recebimento := pDataReceber;
+end;
+
+procedure ClassLancamentosCP.setIdContaCorrente(pContaCorrente: integer);
+begin
+  self.idconta_corrente := pContaCorrente;
+end;
+
+procedure ClassLancamentosCP.setIdContaReceber(pIdContaReceber: integer);
+begin
+  self.idconta_receber := pIdContaReceber;
+end;
+
+procedure ClassLancamentosCP.setIdLancamentoCP(pIdLancamentoCP: integer);
+begin
+  self.idlancamentoCP := pIdLancamentoCP;
+end;
+
+procedure ClassLancamentosCP.setIdTipoPagamento(pIdTipoPagamento: integer);
+begin
+  self.idtipo_pagamento := pIdTipoPagamento;
+end;
+
+procedure ClassLancamentosCP.setObservacao(pObservacao: string);
+begin
+  self.observacao := pObservacao;
+end;
+
+procedure ClassLancamentosCP.setValorRecebido(pValorRecebido: double);
+begin
+  self.valor_recebido := pValorRecebido;
+end;
+
+end.

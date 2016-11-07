@@ -1,0 +1,199 @@
+unit uClassContasReceber;
+
+interface
+
+type ClassContasReceber = class
+  private
+    idcontas_receber : integer;
+    idconta : integer;
+    data_cadastro : string;
+    titulo : string;
+    data_emissao : string;
+    quant_parcelas : integer;
+    vencimento : string;
+    valor : double;
+    quitado_em : string;
+    valor_recebido : double;
+    idtipo_cobranca : integer;
+    idplano_contas : integer;
+    idcliente_fornecedor : integer;
+  public
+    constructor cContasPagar;
+    destructor dContasPagar;
+
+    procedure setIdContasReceber(pIdContasReceber : integer);
+    procedure setDataCadastro(pDataCadastro : string);
+    procedure setTitulo(pTitulo : string);
+    procedure setDataEmissao(pDataEmissao : string);
+    procedure setQuantParcelas(pQuantParcelas : integer);
+    procedure setVencimento(pVencimento : string);
+    procedure setValor(pValor : double);
+    procedure setQuitadoEm(pRecebidoEm : string);
+    procedure setValorRecebido(pValorRecebido : double);
+    procedure setIdTipoCobranca(pIdTipoCobranca : integer);
+    procedure setIdPlanoContas(pIdPlanoContas : integer);
+    procedure setIdClienteFornecedor(pIdClienteFornecedor : integer);
+
+    function getIdContasReceber : integer;
+    function getDataCadastro : string;
+    function getTitulo : string;
+    function getDataEmissao : string;
+    function getQuantParcelas : integer;
+    function getVencimento : string;
+    function getValor : double;
+    function getQuitadoEm : string;
+    function getValorRecebido : double;
+    function getIdTipoCobranca : integer;
+    function getIdPlanoContas : integer;
+    function getIdClienteFornecedor : integer;
+end;
+
+implementation
+
+{ ClassContasPagar }
+
+{ ClassContasReceber }
+
+constructor ClassContasReceber.cContasPagar;
+begin
+  self.idcontas_receber := 0;
+  self.idconta := 0;
+  self.data_cadastro := '';
+  self.titulo := '';
+  self.data_emissao := '';
+  self.quant_parcelas := 0;
+  self.vencimento := '';
+  self.valor := 0;
+  self.quitado_em := '';
+end;
+
+destructor ClassContasReceber.dContasPagar;
+begin
+
+end;
+
+function ClassContasReceber.getDataCadastro: string;
+begin
+
+end;
+
+function ClassContasReceber.getDataEmissao: string;
+begin
+
+end;
+
+function ClassContasReceber.getIdClienteFornecedor: integer;
+begin
+
+end;
+
+function ClassContasReceber.getIdContasReceber: integer;
+begin
+
+end;
+
+function ClassContasReceber.getIdPlanoContas: integer;
+begin
+
+end;
+
+function ClassContasReceber.getIdTipoCobranca: integer;
+begin
+
+end;
+
+function ClassContasReceber.getQuantParcelas: integer;
+begin
+
+end;
+
+function ClassContasReceber.getQuitadoEm: string;
+begin
+
+end;
+
+function ClassContasReceber.getTitulo: string;
+begin
+
+end;
+
+function ClassContasReceber.getValor: double;
+begin
+
+end;
+
+function ClassContasReceber.getValorRecebido: double;
+begin
+
+end;
+
+function ClassContasReceber.getVencimento: string;
+begin
+
+end;
+
+
+//SETS
+
+procedure ClassContasReceber.setDataCadastro(pDataCadastro: string);
+begin
+
+end;
+
+procedure ClassContasReceber.setDataEmissao(pDataEmissao: string);
+begin
+
+end;
+
+procedure ClassContasReceber.setIdClienteFornecedor(
+  pIdClienteFornecedor: integer);
+begin
+
+end;
+
+procedure ClassContasReceber.setIdContasReceber(pIdContasReceber: integer);
+begin
+
+end;
+
+procedure ClassContasReceber.setIdPlanoContas(pIdPlanoContas: integer);
+begin
+
+end;
+
+procedure ClassContasReceber.setIdTipoCobranca(pIdTipoCobranca: integer);
+begin
+
+end;
+
+procedure ClassContasReceber.setQuantParcelas(pQuantParcelas: integer);
+begin
+
+end;
+
+procedure ClassContasReceber.setRecebidoEm(pRecebidoEm: string);
+begin
+
+end;
+
+procedure ClassContasReceber.setTitulo(pTitulo: string);
+begin
+
+end;
+
+procedure ClassContasReceber.setValor(pValor: double);
+begin
+
+end;
+
+procedure ClassContasReceber.setValorRecebido(pValorRecebido: double);
+begin
+
+end;
+
+procedure ClassContasReceber.setVencimento(pVencimento: string);
+begin
+
+end;
+
+end.

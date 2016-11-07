@@ -1,0 +1,111 @@
+unit uTiposPagamentoCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, uTiposPagamento;
+
+type
+  TfrmTiposPagamentoCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    btnVoltar: TButton;
+    btnNovo: TButton;
+    ADOTable1: TADOTable;
+    DataSource1: TDataSource;
+    ADOTable1idtipo_pagamento: TAutoIncField;
+    ADOTable1nome: TWideStringField;
+    ADOTable1ativo: TWideStringField;
+    btnExcluir: TButton;
+    ADOCommand1: TADOCommand;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    tipos_pc : TfrmTiposPagamento;
+  public
+    selecionar: boolean;
+    idtipo_pagamentoS : string;
+    tipo_pagamentoS : string;
+  end;
+
+var
+  frmTiposPagamentoCadastrados: TfrmTiposPagamentoCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmTiposPagamentoCadastrados.btnExcluirClick(Sender: TObject);
+begin
+  if DBGrid1.Fields[0].AsString <> '' then
+    if Application.MessageBox('Tem certeza que deseja excluir o dado selecionado?',
+      'Confirmação', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2) = IDYES then
+    begin
+      ADOCommand1.CommandText := 'delete from tipo_pagamento where idtipo_pagamento=' +
+        DBGrid1.Fields[0].AsString + ';';
+
+      try
+        ADOCommand1.Execute;
+
+        ADOTable1.Active := false;
+        ADOTable1.Active := true;
+
+        Application.MessageBox('Tipo de Pagamento excluído com sucesso!', 'Concluído',
+          MB_OK + MB_ICONINFORMATION);
+      except
+        on e : Exception do
+          Application.MessageBox('Não foi possível excluir o dado selecionado'#10'porque ele tem relação com outro dado cadastrado!',
+            'Erro ao excluir', MB_OK + MB_ICONSTOP);
+      end;
+    end;
+end;
+
+procedure TfrmTiposPagamentoCadastrados.btnNovoClick(Sender: TObject);
+begin
+  self.tipos_pc.ShowModal;
+
+  self.ADOTable1.Active := false;
+  self.ADOTable1.Active := true;
+end;
+
+procedure TfrmTiposPagamentoCadastrados.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmTiposPagamentoCadastrados.DBGrid1CellClick(Column: TColumn);
+begin
+  if (self.selecionar = true) and (DBGrid1.Fields[0].AsString <> '') then
+  begin
+    self.idtipo_pagamentoS := DBGrid1.Fields[0].AsString;
+    self.tipo_pagamentoS := DBGrid1.Fields[1].AsString;
+
+    self.selecionar := false;
+
+    self.Close;
+  end;
+end;
+
+procedure TfrmTiposPagamentoCadastrados.FormActivate(Sender: TObject);
+begin
+  self.tipos_pc := TfrmTiposPagamento.Create(nil);
+end;
+
+procedure TfrmTiposPagamentoCadastrados.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  self.tipos_pc.Destroy;
+end;
+
+procedure TfrmTiposPagamentoCadastrados.FormCreate(Sender: TObject);
+begin
+  self.selecionar := false;
+end;
+
+end.

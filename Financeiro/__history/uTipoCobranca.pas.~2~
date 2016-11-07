@@ -1,0 +1,68 @@
+unit uTipoCobranca;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.Win.ADODB, Vcl.StdCtrls;
+
+type
+  TfrmTipoCobranca = class(TForm)
+    Label1: TLabel;
+    edtNome: TEdit;
+    chkAtivo: TCheckBox;
+    btnCadastrar: TButton;
+    btnVoltar: TButton;
+    ADOCommand1: TADOCommand;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnCadastrarClick(Sender: TObject);
+  private
+    nome : string;
+    ativo : char;
+    procedure CadastrarTipoCobranca;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmTipoCobranca: TfrmTipoCobranca;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmTipoCobranca.btnCadastrarClick(Sender: TObject);
+begin
+  if edtNome.Text = '' then
+    ShowMessage('Não deixe o campo em branco!')
+  else
+    self.CadastrarTipoCobranca;
+end;
+
+
+procedure TfrmTipoCobranca.CadastrarTipoCobranca;
+begin
+  if chkAtivo.Checked = true then
+    ADOCommand1.CommandText := 'insert into tipo_cobranca values(null, "' +
+      edtNome.Text + '", "S");'
+  else
+    ADOCommand1.CommandText := 'insert into tipo_cobranca values(null, "' +
+      edtNome.Text + '", "N");';
+
+  ADOCommand1.Execute;
+
+  ShowMessage('Tipo de Cobrança cadastrado com sucesso!');
+
+  edtNome.Text := '';
+  chkAtivo.Checked := true;
+
+  edtNome.SetFocus;
+end;
+
+
+procedure TfrmTipoCobranca.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+end.

@@ -1,0 +1,103 @@
+unit uContasReceberCadastradas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, uContasReceber, uBaixarTituloLancamentosCR,
+  udmImprimir, ACBrBoleto, ACBrBoletoFCFortesFr, ACBrBase;
+
+type
+  TfrmContasReceberCadastradas = class(TForm)
+    DBGrid1: TDBGrid;
+    btnVoltar: TButton;
+    btnNova: TButton;
+    btnExcluir: TButton;
+    btnBaixar: TButton;
+    ADOCommand1: TADOCommand;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+    ADOQuery1Código: TAutoIncField;
+    ADOQuery1DatadeCadastro: TWideStringField;
+    ADOQuery1Título: TWideStringField;
+    ADOQuery1Vencimento: TWideStringField;
+    ADOQuery1Valor: TFloatField;
+    ADOQuery1ÀPagar: TFloatField;
+    ADOQuery1Pagoem: TWideStringField;
+    ADOQuery1ValorPago: TFloatField;
+    ADOConnection1: TADOConnection;
+    btnImprimirBoleto: TButton;
+    ADOQuery1ClienteFornecedor: TAutoIncField;
+    procedure btnNovaClick(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnBaixarClick(Sender: TObject);
+    procedure btnImprimirBoletoClick(Sender: TObject);
+  private
+    dm : TdmImprimir;
+    contas_receber : TfrmContasReceber;
+    baixar_tituloL : TfrmBaixarTituloLancamentosCR;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContasReceberCadastradas: TfrmContasReceberCadastradas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContasReceberCadastradas.btnBaixarClick(Sender: TObject);
+begin
+  if DBGrid1.Fields[0].AsString <> '' then
+  begin
+    self.baixar_tituloL := TfrmBaixarTituloLancamentosCR.Create(nil);
+
+    self.baixar_tituloL.idconta_receber := DBGrid1.Fields[0].AsString;
+
+    if DBGrid1.Fields[5].AsString = '0' then
+      self.baixar_tituloL.tbsBaixaTitulo.TabVisible := false
+    else
+    begin
+      self.baixar_tituloL.valor_a_receber := StrToFloat(DBGrid1.Fields[5].AsString);
+      self.baixar_tituloL.edtSaldoCredor.Text := DBGrid1.Fields[5].AsString;
+    end;
+
+    self.baixar_tituloL.ShowModal;
+
+    self.baixar_tituloL.Destroy;
+
+    self.ADOQuery1.Active := false;
+    self.ADOQuery1.Active := true;
+
+    self.btnVoltar.SetFocus;
+  end;
+end;
+
+procedure TfrmContasReceberCadastradas.btnImprimirBoletoClick(Sender: TObject);
+begin
+  self.dm := TdmImprimir.Create(nil);
+  self.dm.DadosPadrao;
+  self.dm.DadosPersonalizados(DBGrid1.Fields[0].AsInteger);
+  self.dm.DadosSacado(StrToInt(DBGrid1.Fields[8].AsString));
+  self.dm.DadosCedente;
+self.dm.ACBrBoletoFCFortes1.LayOut := dm.ACBrBoleto1;
+  self.dm.ACBrBoleto1.Imprimir;
+end;
+
+procedure TfrmContasReceberCadastradas.btnNovaClick(Sender: TObject);
+begin
+  self.contas_receber := TfrmContasReceber.Create(nil);
+  self.contas_receber.ShowModal;
+
+  ADOQuery1.Active := false;
+  ADOQuery1.Active := true;
+end;
+
+procedure TfrmContasReceberCadastradas.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+end.

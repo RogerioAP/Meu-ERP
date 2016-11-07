@@ -1,0 +1,202 @@
+unit uBaixarTituloLancamentos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, Data.Win.ADODB, uTiposPagamentoCadastrados;
+
+type
+  TfrmBaixarTituloLancamentos = class(TForm)
+    PageControl1: TPageControl;
+    tbsBaixaTitulo: TTabSheet;
+    tbsLancamentos: TTabSheet;
+    btnVoltar: TButton;
+    Label1: TLabel;
+    dtpDataPagamento: TDateTimePicker;
+    Label2: TLabel;
+    edtTipoPagamento: TEdit;
+    btnSelecionarTipoPagamento: TButton;
+    Label3: TLabel;
+    edtConta: TEdit;
+    btnSelecionarConta: TButton;
+    btnSalvar: TButton;
+    DBGrid1: TDBGrid;
+    Label4: TLabel;
+    edtValorPago: TEdit;
+    Label5: TLabel;
+    mmObservacao: TMemo;
+    edtIdConta: TEdit;
+    Label6: TLabel;
+    edtIdTipoPagamento: TEdit;
+    Label7: TLabel;
+    edtSaldoDevedor: TEdit;
+    Label8: TLabel;
+    ADOCommand1: TADOCommand;
+    Label9: TLabel;
+    mmObservacaoPagamento: TMemo;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnSelecionarTipoPagamentoClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+  private
+    tipo_pagamento : TfrmTiposPagamentoCadastrados;
+    procedure SalvarPagamento;
+    function VerificarCamposNulos : boolean;
+    procedure LimparCampos;
+    procedure AtualizarValorPago;
+    //abaixo a fuction verifica se o valor pago é maior do que o valor devido
+    function VerificarValorPago : boolean;
+    //abaixo a procedure verifica se o valor pago quitou totalmente a conta
+    procedure VerificarQuitação;
+  public
+    idconta_pagar : string;
+    valor_a_pagar : double;
+  end;
+
+var
+  frmBaixarTituloLancamentos: TfrmBaixarTituloLancamentos;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfrmBaixarTituloLancamentos.btnSalvarClick(Sender: TObject);
+begin
+  if self.VerificarCamposNulos = true then
+    Application.MessageBox('Os campos com * não podem ser nulos!', 'Atenção',
+      MB_OK + MB_ICONEXCLAMATION)
+  else if self.VerificarValorPago = true then
+    Application.MessageBox('O valor pago não pode ser maior do que o valor devido!',
+      'Atenção', MB_OK + MB_ICONEXCLAMATION)
+  else
+    self.SalvarPagamento;
+end;
+
+procedure TfrmBaixarTituloLancamentos.SalvarPagamento;
+begin
+  ADOCommand1.CommandText := 'insert into lancamento values(null, ' +
+    idconta_pagar + ', "' +
+    FormatDateTime('yyyy-mm-dd', dtpDataPagamento.Date) + '", ' +
+    edtIdTipoPagamento.Text + ', 0, ' +
+    self.edtValorPago.Text + ', "' +
+    mmObservacao.Text + '");';
+
+  ADOCommand1.Execute;
+
+  //atualiza o edit "Saldo Devedor"
+  self.edtSaldoDevedor.Text :=
+    FloatTOStr(StrToFloat(self.edtSaldoDevedor.Text) - StrToFloat(self.edtValorPago.Text));
+
+  self.AtualizarValorPago;
+
+  self.VerificarQuitação;
+
+  self.LimparCampos;
+
+  Application.MessageBox('Pagamento cadastrado com sucesso!', 'Concluído',
+    MB_OK + MB_ICONINFORMATION);
+
+  btnVoltar.SetFocus;
+
+  self.ADOQuery1.Active := false;
+  self.ADOQuery1.Active := true;
+end;
+
+
+procedure TfrmBaixarTituloLancamentos.AtualizarValorPago;
+begin
+  ADOCommand1.CommandText := '';
+  ADOCommand1.CommandText := 'update contas_pagar set valor_pago=valor_pago + ' +
+    self.edtValorPago.Text + ' where idconta_pagar=' + self.idconta_pagar;
+  ADOCommand1.Execute;
+end;
+
+
+function TfrmBaixarTituloLancamentos.VerificarCamposNulos;
+begin
+  if (edtTipoPagamento.Text = '') or (edtValorPago.Text = '') or
+      (StrToFloat(self.edtValorPago.Text) = 0) then
+    result := true
+  else
+    result := false;
+end;
+
+
+
+function TfrmBaixarTituloLancamentos.VerificarValorPago;
+begin
+  if (StrToFloat(self.edtValorPago.Text)) > StrToFloat(self.edtSaldoDevedor.Text) then
+    result := true
+  else
+    result := false;
+end;
+
+
+procedure TfrmBaixarTituloLancamentos.VerificarQuitação;
+begin
+  if (StrToFloat(self.edtSaldoDevedor.Text)) = (StrToFloat(self.edtValorPago.Text)) then
+  begin
+    ADOCommand1.CommandText := '';
+    ADOCommand1.CommandText := 'update contas_pagar set pago_em="' +
+      FormatDateTime('yyyy-mm-dd', self.dtpDataPagamento.Date) +
+      '" where idconta_pagar=' + self.idconta_pagar + ';';
+
+    ADOCommand1.Execute;
+  end;
+end;
+
+
+procedure TfrmBaixarTituloLancamentos.btnSelecionarTipoPagamentoClick(
+  Sender: TObject);
+begin
+  self.tipo_pagamento := TfrmTiposPagamentoCadastrados.Create(nil);
+  self.tipo_pagamento.selecionar := true;
+  self.tipo_pagamento.ShowModal;
+
+  self.edtIdTipoPagamento.Text := self.tipo_pagamento.idtipo_pagamentoS;
+  self.edtTipoPagamento.Text := self.tipo_pagamento.tipo_pagamentoS;
+  self.tipo_pagamento.selecionar := false;
+
+  self.tipo_pagamento.Destroy;
+end;
+
+procedure TfrmBaixarTituloLancamentos.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmBaixarTituloLancamentos.FormActivate(Sender: TObject);
+begin
+  self.ADOQuery1.SQL.Add('select lancamento.data_pagamento as "Data do Pagamento", ' +
+    'tipo_pagamento.nome as "Tipo de Pagamento", lancamento.valor_pago as "Valor Pago" ' +
+    'from lancamento, tipo_pagamento where lancamento.idconta_pagar=' +
+    self.idconta_pagar);
+  self.ADOQuery1.ExecSQL;
+  self.ADOQuery1.Active := true;
+end;
+
+procedure TfrmBaixarTituloLancamentos.FormCreate(Sender: TObject);
+begin
+  dtpDataPagamento.Date := now;
+end;
+
+
+procedure TfrmBaixarTituloLancamentos.LimparCampos;
+begin
+  self.dtpDataPagamento.Date := now;
+  self.edtIdTipoPagamento.Text := '';
+  self.edtTipoPagamento.Text := '';
+  self.edtConta.Text := '';
+  self.edtIdConta.Text := '';
+  self.edtValorPago.Text := '';
+  mmObservacao.Text := '';
+end;
+
+
+end.

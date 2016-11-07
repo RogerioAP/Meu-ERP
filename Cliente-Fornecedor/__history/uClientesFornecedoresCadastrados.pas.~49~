@@ -1,0 +1,123 @@
+unit uClientesFornecedoresCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Data.Win.ADODB, uClientesFornecedores;
+
+type
+  TfrmClieFornCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    btnVoltar: TButton;
+    ADOTable1: TADOTable;
+    DataSource1: TDataSource;
+    ADOTable1idcliente_fornecedor: TAutoIncField;
+    ADOTable1tipo: TWideStringField;
+    ADOTable1nome_razaosocial: TWideStringField;
+    ADOTable1apelido_nomefantasia: TWideStringField;
+    ADOTable1cpf: TWideStringField;
+    ADOTable1cnpj: TWideStringField;
+    ADOTable1telefone: TWideStringField;
+    ADOTable1celular: TWideStringField;
+    ADOTable1email: TWideStringField;
+    ADOTable1ativo: TWideStringField;
+    ADOTable1pessoa: TWideStringField;
+    ADOTable1observacao: TWideStringField;
+    ADOTable1endereco: TWideStringField;
+    ADOTable1numero: TWideStringField;
+    ADOTable1bairro: TWideStringField;
+    ADOTable1cidade: TWideStringField;
+    ADOTable1estado: TWideStringField;
+    ADOTable1complemento: TWideStringField;
+    ADOTable1cep: TWideStringField;
+    ADOTable1idgrupo_cliente_fornecedor: TIntegerField;
+    btnExcluir: TButton;
+    ADOCommand1: TADOCommand;
+    btnNovo: TButton;
+    ADOCommand2: TADOCommand;
+    ADOConnection1: TADOConnection;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure FormCreate(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+  private
+    cliente_fornecedor : TfrmClientesFornecedores;
+    procedure ExcluirCF;
+  public
+    selecionar_forn : boolean;
+    id_fornecedor : integer;
+    nome_fornecedor : string;
+  end;
+
+var
+  frmClieFornCadastrados: TfrmClieFornCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmClieFornCadastrados.btnExcluirClick(Sender: TObject);
+begin
+  if DBGrid1.Fields[0].AsString <> '' then
+    self.ExcluirCF;
+end;
+
+
+procedure TfrmClieFornCadastrados.ExcluirCF;
+begin
+  ADOCommand1.CommandText := 'delete from cliente_fornecedor where idcliente_fornecedor=' +
+    DBGrid1.Fields[0].AsString +';';
+
+  try
+    ADOCommand1.Execute;
+
+    Application.MessageBox('Cliente/Fornecedor excluído com sucesso!', 'Concluído',
+      MB_OK + MB_ICONINFORMATION);
+
+      ADOTable1.Active := false;
+      ADOTable1.Active := true;
+  except
+    on e : Exception do
+      Application.MessageBox('Não foi possível excluir o dado selecionado'#10'porque ele tem relação com outro dado cadastrado!',
+        'Erro ao excluir', MB_OK + MB_ICONSTOP);
+  end;
+end;
+
+
+procedure TfrmClieFornCadastrados.btnNovoClick(Sender: TObject);
+begin
+  self.cliente_fornecedor := TfrmClientesFornecedores.Create(nil);
+  self.cliente_fornecedor.ShowModal;
+  self.cliente_fornecedor.Destroy;
+
+  ADOTable1.Active := false;
+  ADOTable1.Active := true;
+end;
+
+procedure TfrmClieFornCadastrados.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmClieFornCadastrados.DBGrid1CellClick(Column: TColumn);
+begin
+  if (self.selecionar_forn = true) and (DBGrid1.Fields[0].AsString <> '') then
+  begin
+    self.id_fornecedor := StrToInt(DBGrid1.Fields[0].AsString);
+    self.nome_fornecedor := DBGrid1.Fields[1].AsString;
+
+    self.selecionar_forn := false;
+
+    self.Close;
+  end;
+end;
+
+procedure TfrmClieFornCadastrados.FormCreate(Sender: TObject);
+begin
+  self.selecionar_forn := false;
+end;
+
+end.

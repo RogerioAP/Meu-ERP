@@ -1,0 +1,99 @@
+object frmCadastrarClienteFornecedor: TfrmCadastrarClienteFornecedor
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Cadastrar Cliente/Fornecedor'
+  ClientHeight = 364
+  ClientWidth = 576
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 87
+    Top = 72
+    Width = 95
+    Height = 13
+    Caption = 'Nome/Raz'#227'o Social:'
+  end
+  object Label2: TLabel
+    Left = 68
+    Top = 118
+    Width = 114
+    Height = 13
+    Caption = 'Apelido/Nome Fantasia:'
+  end
+  object Label3: TLabel
+    Left = 43
+    Top = 166
+    Width = 139
+    Height = 13
+    Caption = 'Grupo do Cliente/Fornecedor'
+  end
+  object edtNome: TEdit
+    Left = 188
+    Top = 69
+    Width = 344
+    Height = 21
+    TabOrder = 0
+  end
+  object Edit1: TEdit
+    Left = 188
+    Top = 115
+    Width = 344
+    Height = 21
+    TabOrder = 1
+  end
+  object RadioButton1: TRadioButton
+    Left = 412
+    Top = 32
+    Width = 57
+    Height = 17
+    Caption = 'F'#237'sica'
+    TabOrder = 2
+  end
+  object RadioButton2: TRadioButton
+    Left = 475
+    Top = 32
+    Width = 57
+    Height = 17
+    Caption = 'Juri'#237'dica'
+    TabOrder = 3
+  end
+  object chkCliente: TCheckBox
+    Left = 188
+    Top = 32
+    Width = 73
+    Height = 17
+    Caption = 'Cliente'
+    TabOrder = 4
+  end
+  object chkFornecedor: TCheckBox
+    Left = 267
+    Top = 32
+    Width = 73
+    Height = 17
+    Caption = 'Fornecedor'
+    TabOrder = 5
+  end
+  object Edit2: TEdit
+    Left = 188
+    Top = 163
+    Width = 263
+    Height = 21
+    TabOrder = 6
+  end
+  object Button1: TButton
+    Left = 457
+    Top = 161
+    Width = 75
+    Height = 25
+    Caption = 'Selecionar'
+    TabOrder = 7
+  end
+end

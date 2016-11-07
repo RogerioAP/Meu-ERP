@@ -1,0 +1,37 @@
+unit uBancosCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Data.Win.ADODB, uBancos;
+
+type
+  TfrmBancosCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    btnNovo: TButton;
+    btnVoltar: TButton;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    procedure btnVoltarClick(Sender: TObject);
+  private
+    bancos : TfrmBancos;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBancosCadastrados: TfrmBancosCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmBancosCadastrados.btnVoltarClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+end.

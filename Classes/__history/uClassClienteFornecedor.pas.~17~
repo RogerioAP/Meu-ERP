@@ -1,0 +1,127 @@
+unit uClassClienteFornecedor;
+
+interface
+
+type ClassClienteFornecedor = class
+  private
+    idcliente_fornecedor : integer;
+    tipo : string;
+    pessoa : char;
+    nome_razaosocial : string;
+    ativo : char;
+
+    apelido : string;
+    cpf : string;
+    cnpj : string;
+    observacao : string;
+    endereco : string;
+    numero : string;
+    bairro : string;
+    cidade : string;
+    estado : string;
+    complemento : string;
+    cep : string;
+
+    telefone : string;
+    celular : string;
+    email : string;
+
+    idgrupo_cf : integer;
+  public
+    constructor cClassClienteFornecedor;
+    destructor dClassClienteFornecedor;
+
+    procedure setIdClienteFornecedor(pIdClienteFornecedor : integer);
+    procedure setTipo(pTipo : string);
+    procedure setPessoa(pPessoa : char);
+    procedure setNomeRazaoSocial(pNomeRazaoSocial : string);
+    procedure setIdGrupoCF(pIdGrupoCF : integer);
+    procedure setAtivo(pAtivo : char);
+
+    function getIdClienteFornecedor : integer;
+    function getTipo : string;
+    function getPessoa : char;
+    function getNomeRazaoSocial : string;
+    function getIdGrupoCF : integer;
+    function getAtivo : char;
+end;
+
+implementation
+
+{ ClassClienteFornecedor }
+
+constructor ClassClienteFornecedor.cClassClienteFornecedor;
+begin
+  idcliente_fornecedor := 0;
+  tipo := '';
+  pessoa := 'F';
+  nome_razaosocial := '';
+end;
+
+destructor ClassClienteFornecedor.dClassClienteFornecedor;
+begin
+  //destrutor
+end;
+
+function ClassClienteFornecedor.getAtivo: char;
+begin
+  result := ativo;
+end;
+
+function ClassClienteFornecedor.getIdClienteFornecedor: integer;
+begin
+  result := idcliente_fornecedor;
+end;
+
+function ClassClienteFornecedor.getIdGrupoCF: integer;
+begin
+  result := idgrupo_cf;
+end;
+
+function ClassClienteFornecedor.getNomeRazaoSocial: string;
+begin
+  result := nome_razaosocial;
+end;
+
+function ClassClienteFornecedor.getPessoa: char;
+begin
+  result := pessoa;
+end;
+
+function ClassClienteFornecedor.getTipo: string;
+begin
+  result := tipo;
+end;
+
+procedure ClassClienteFornecedor.setAtivo(pAtivo: char);
+begin
+  ativo := pAtivo;
+end;
+
+procedure ClassClienteFornecedor.setIdClienteFornecedor(
+  pIdClienteFornecedor: integer);
+begin
+  idcliente_fornecedor := pIdClienteFornecedor;
+end;
+
+procedure ClassClienteFornecedor.setIdGrupoCF(pIdGrupoCF: integer);
+begin
+  idgrupo_cf := pIdGrupoCF;
+end;
+
+procedure ClassClienteFornecedor.setNomeRazaoSocial(pNomeRazaoSocial: string);
+begin
+  nome_razaosocial := pNomeRazaoSocial;
+end;
+
+procedure ClassClienteFornecedor.setPessoa(pPessoa: char);
+begin
+  pessoa := pPessoa;
+end;
+
+procedure ClassClienteFornecedor.setTipo(pTipo: string);
+begin
+  tipo := pTipo;
+end;
+
+end.

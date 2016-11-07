@@ -1,0 +1,12 @@
+unit uClassContasCorrente;
+
+interface
+
+type ClassContasCorrente = class
+  private
+  public
+end;
+
+implementation
+
+end.

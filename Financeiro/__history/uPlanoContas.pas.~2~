@@ -1,0 +1,32 @@
+unit uPlanoContas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.Win.ADODB, Vcl.StdCtrls;
+
+type
+  TfrmPlanoContas = class(TForm)
+    Label1: TLabel;
+    edtSequencia: TEdit;
+    chkAtivo: TCheckBox;
+    btnCadastrar: TButton;
+    btnVoltar: TButton;
+    ADOCommand1: TADOCommand;
+    edtTítulo: TEdit;
+    Label2: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPlanoContas: TfrmPlanoContas;
+
+implementation
+
+{$R *.dfm}
+
+end.

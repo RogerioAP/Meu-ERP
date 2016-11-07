@@ -1,0 +1,71 @@
+unit uPlanoContaCadastrados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, uPlanoContas;
+
+type
+  TfrmPlanosContaCadastrados = class(TForm)
+    DBGrid1: TDBGrid;
+    Button1: TButton;
+    ADOTable1: TADOTable;
+    DataSource1: TDataSource;
+    ADOTable1idplano_contas: TAutoIncField;
+    ADOTable1sequencia: TIntegerField;
+    ADOTable1titulo: TWideStringField;
+    ADOTable1ativo: TWideStringField;
+    btnNovo: TButton;
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure Button1Click(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    plano : TfrmPlanoContas;
+  public
+    selecionar_plano : boolean;
+    idplano : integer;
+    titulo : string;
+  end;
+
+var
+  frmPlanosContaCadastrados: TfrmPlanosContaCadastrados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmPlanosContaCadastrados.btnNovoClick(Sender: TObject);
+begin
+  self.plano.ShowModal;
+
+  self.ADOTable1.Active := false;
+  self.ADOTable1.Active := true;
+end;
+
+procedure TfrmPlanosContaCadastrados.Button1Click(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TfrmPlanosContaCadastrados.DBGrid1CellClick(Column: TColumn);
+begin
+  if selecionar_plano = true then
+  begin
+    self.idplano := StrToInt(DBGrid1.Fields[0].AsString);
+    self.titulo := DBGrid1.Fields[2].AsString;
+
+    self.selecionar_plano := false;
+
+    self.Close;
+  end;
+end;
+
+procedure TfrmPlanosContaCadastrados.FormCreate(Sender: TObject);
+begin
+  self.plano := TfrmPlanoContas.Create(nil);
+end;
+
+end.

@@ -1,0 +1,21 @@
+unit uClassContasCorrente;
+
+interface
+
+type ClassContasCorrente = class
+  private
+    idconta_corrente : integer;
+    idbanco : integer;
+    agencia : integer;
+    digito_agencia : integer;
+    conta : integer;
+    digito_conta : integer;
+    saldo : double;
+    impressao_boleto : char;
+    ativo : char;
+  public
+end;
+
+implementation
+
+end.

@@ -1,0 +1,328 @@
+object frmBaixarTituloLancamentosCP: TfrmBaixarTituloLancamentosCP
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Contas '#192' Pagar'
+  ClientHeight = 313
+  ClientWidth = 669
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 669
+    Height = 313
+    ActivePage = tbsBaixaTitulo
+    Align = alClient
+    TabOrder = 0
+    object tbsBaixaTitulo: TTabSheet
+      Caption = 'Baixa de T'#237'tulo'
+      object Label1: TLabel
+        Left = 41
+        Top = 18
+        Width = 99
+        Height = 13
+        Caption = 'Data do pagamento:'
+      end
+      object Label2: TLabel
+        Left = 250
+        Top = 18
+        Width = 105
+        Height = 13
+        Caption = '* Tipo de Pagamento:'
+      end
+      object Label3: TLabel
+        Left = 107
+        Top = 53
+        Width = 33
+        Height = 13
+        Caption = 'Conta:'
+      end
+      object Label4: TLabel
+        Left = 32
+        Top = 125
+        Width = 108
+        Height = 16
+        Caption = '* Valor Pago: R$'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 78
+        Top = 181
+        Width = 62
+        Height = 13
+        Caption = 'Observa'#231#227'o:'
+      end
+      object Label6: TLabel
+        Left = 12
+        Top = 50
+        Width = 37
+        Height = 13
+        Caption = 'Idconta'
+        Visible = False
+      end
+      object Label7: TLabel
+        Left = 256
+        Top = 3
+        Width = 58
+        Height = 13
+        Caption = 'IdTipo de P.'
+        Visible = False
+      end
+      object Label8: TLabel
+        Left = 51
+        Top = 89
+        Width = 89
+        Height = 13
+        Caption = 'Saldo devedor: R$'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object btnVoltar: TButton
+        Left = 334
+        Top = 247
+        Width = 75
+        Height = 25
+        Caption = 'Voltar'
+        TabOrder = 5
+        OnClick = btnVoltarClick
+      end
+      object dtpDataPagamento: TDateTimePicker
+        Left = 146
+        Top = 14
+        Width = 83
+        Height = 21
+        Date = 42674.365350347230000000
+        Format = 'dd/MM/yyyy'
+        Time = 42674.365350347230000000
+        TabOrder = 4
+      end
+      object edtTipoPagamento: TEdit
+        Left = 361
+        Top = 15
+        Width = 188
+        Height = 21
+        Enabled = False
+        TabOrder = 6
+      end
+      object btnSelecionarTipoPagamento: TButton
+        Left = 555
+        Top = 13
+        Width = 75
+        Height = 25
+        Caption = 'Selecionar...'
+        TabOrder = 0
+        OnClick = btnSelecionarTipoPagamentoClick
+      end
+      object edtContaCorrente: TEdit
+        Left = 146
+        Top = 50
+        Width = 403
+        Height = 21
+        Enabled = False
+        TabOrder = 7
+      end
+      object btnSelecionarConta: TButton
+        Left = 555
+        Top = 48
+        Width = 75
+        Height = 25
+        Caption = 'Selecionar...'
+        TabOrder = 1
+        OnClick = btnSelecionarContaClick
+      end
+      object btnSalvar: TButton
+        Left = 253
+        Top = 247
+        Width = 75
+        Height = 25
+        Caption = 'Salvar'
+        TabOrder = 3
+        OnClick = btnSalvarClick
+      end
+      object edtValorPago: TEdit
+        Left = 146
+        Top = 122
+        Width = 83
+        Height = 24
+        Alignment = taRightJustify
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        NumbersOnly = True
+        ParentFont = False
+        TabOrder = 2
+      end
+      object mmObservacao: TMemo
+        Left = 146
+        Top = 178
+        Width = 484
+        Height = 52
+        TabOrder = 8
+      end
+      object edtIdContaCorrente: TEdit
+        Left = 51
+        Top = 47
+        Width = 39
+        Height = 21
+        Enabled = False
+        TabOrder = 9
+        Visible = False
+      end
+      object edtIdTipoPagamento: TEdit
+        Left = 320
+        Top = 0
+        Width = 35
+        Height = 21
+        Enabled = False
+        TabOrder = 10
+        Visible = False
+      end
+      object edtSaldoDevedor: TEdit
+        Left = 146
+        Top = 86
+        Width = 83
+        Height = 21
+        Alignment = taRightJustify
+        Enabled = False
+        TabOrder = 11
+      end
+    end
+    object tbsLancamentos: TTabSheet
+      Caption = 'Lan'#231'amentos'
+      ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object Label9: TLabel
+        Left = 14
+        Top = 159
+        Width = 134
+        Height = 13
+        Caption = 'Observa'#231#227'o do Pagamento:'
+      end
+      object DBGrid1: TDBGrid
+        Left = 14
+        Top = 16
+        Width = 633
+        Height = 121
+        DataSource = DataSource1
+        ReadOnly = True
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+      object mmObservacaoPagamento: TMemo
+        Left = 14
+        Top = 178
+        Width = 633
+        Height = 62
+        Enabled = False
+        TabOrder = 1
+      end
+      object btnVoltar2: TButton
+        Left = 293
+        Top = 247
+        Width = 75
+        Height = 25
+        Caption = 'Voltar'
+        TabOrder = 2
+        OnClick = btnVoltar2Click
+      end
+    end
+  end
+  object ADOCommand1: TADOCommand
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=123456;Persist Security Info=True;Us' +
+      'er ID=root;Data Source=MeuERP'
+    Parameters = <>
+    Left = 532
+    Top = 112
+  end
+  object ADOQuery1: TADOQuery
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'idconta_especifica'
+        DataType = ftWideString
+        Size = 1
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'select DATE_FORMAT(lancamento.data_pagamento, "%d/%m/%y") as "Da' +
+        'ta do Pagamento",'
+      #9'conta_corrente.nome as "Conta Corrrente",'
+      #9'tipo_pagamento.nome as "Tipo de Pagamento",'
+      
+        #9'lancamento.valor_pago as "Valor Pago" from lancamento, tipo_pag' +
+        'amento, conta_corrente'
+      
+        '    where lancamento.idconta_corrente=conta_corrente.idconta_cor' +
+        'rente and lancamento.idconta_pagar=:idconta_especifica;')
+    Left = 380
+    Top = 112
+    object ADOQuery1DatadoPagamento: TWideStringField
+      Alignment = taCenter
+      DisplayWidth = 15
+      FieldName = 'Data do Pagamento'
+      ReadOnly = True
+      Size = 8
+    end
+    object ADOQuery1ContaCorrrente: TWideStringField
+      DisplayWidth = 35
+      FieldName = 'Conta Corrrente'
+      Size = 45
+    end
+    object ADOQuery1TipodePagamento: TWideStringField
+      DisplayWidth = 35
+      FieldName = 'Tipo de Pagamento'
+      Size = 45
+    end
+    object ADOQuery1ValorPago: TFloatField
+      FieldName = 'Valor Pago'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 452
+    Top = 112
+  end
+  object ADOConnection1: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=123456;Persist Security Info=True;Us' +
+      'er ID=root;Data Source=MeuERP'
+    LoginPrompt = False
+    Left = 300
+    Top = 112
+  end
+end

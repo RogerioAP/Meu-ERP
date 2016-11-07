@@ -1,0 +1,188 @@
+unit uContasCorrente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Data.Win.ADODB, Data.DB,
+  uClassContasCorrente, uBancosCadastrados;
+
+type
+  TfrmContasCorrente = class(TForm)
+    Label1: TLabel;
+    edtAgencia: TEdit;
+    chkAtivo: TCheckBox;
+    edtDigitoAgencia: TEdit;
+    Label2: TLabel;
+    edtConta: TEdit;
+    edtDigitoConta: TEdit;
+    Label3: TLabel;
+    edtBanco: TEdit;
+    btnSelecionar: TButton;
+    Label4: TLabel;
+    edtSaldo: TEdit;
+    chkImpressaoBoleto: TCheckBox;
+    btnCadastrar: TButton;
+    btnVoltar: TButton;
+    cmbSaldo: TComboBox;
+    Label5: TLabel;
+    edtIdBanco: TEdit;
+    ADOConnection1: TADOConnection;
+    ADOCommand1: TADOCommand;
+    Label6: TLabel;
+    edtNome: TEdit;
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnCadastrarClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnSelecionarClick(Sender: TObject);
+  private
+    contas_corrente : ClassContasCorrente;
+    bancos : TfrmBancosCadastrados;
+    procedure CadastrarContaCorrente;
+    function VerificarCamposNulos : boolean;
+    procedure PegarDados;
+    procedure LimparCampos;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmContasCorrente: TfrmContasCorrente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmContasCorrente.btnCadastrarClick(Sender: TObject);
+begin
+  if self.VerificarCamposNulos = true then
+    Application.MessageBox('Os campos com * não podem ser nulos!', 'Atenção',
+      MB_OK + MB_ICONEXCLAMATION)
+  else
+  begin
+    try
+      self.CadastrarContaCorrente;
+
+      self.LimparCampos;
+
+      Application.MessageBox('Conta Corrente cadastrada com sucesso!', 'Concluído',
+        MB_OK + MB_ICONINFORMATION);
+
+      self.edtNome.SetFocus;
+    except
+      on e : Exception do
+        Application.MessageBox('Não foi possível cadastrar a conta corrente!',
+          'Erro ao cadastrar', MB_OK + MB_ICONSTOP);
+    end;
+  end;
+end;
+
+
+procedure TfrmContasCorrente.CadastrarContaCorrente;
+begin
+  self.PegarDados;
+
+  self.ADOCommand1.CommandText := 'insert into conta_corrente values(null, ' +
+    IntToStr(self.contas_corrente.getIdBanco) + ', "' +
+    self.contas_corrente.getNome + '", "' +
+    IntToStr(self.contas_corrente.getAgencia) + '", ' +
+    IntToStr(self.contas_corrente.getDigitoAgencia) + ', ' +
+    IntToStr(self.contas_corrente.getConta) + ', ' +
+    IntToStr(self.contas_corrente.getDigitoConta) + ', ' +
+    FloatToStr(self.contas_corrente.getSaldo) + ', "' +
+    self.contas_corrente.getImpressoaBoleto + '", "' +
+    self.contas_corrente.getAtivo + '");';
+
+  self.ADOCommand1.Execute;
+end;
+
+
+procedure TfrmContasCorrente.PegarDados;
+var
+  saldo : double;
+begin
+  self.contas_corrente.setIdBanco(StrToInt(self.edtIdBanco.Text));
+  self.contas_corrente.setNome(self.edtNome.Text);
+  self.contas_corrente.setAgencia(StrToInt(self.edtAgencia.Text));
+  self.contas_corrente.setDigitoAgencia(StrToInt(self.edtDigitoAgencia.Text));
+  self.contas_corrente.setConta(StrToInt(self.edtConta.Text));
+  self.contas_corrente.setDigitoConta(StrToInt(self.edtDigitoConta.Text));
+
+  saldo := StrToFloat(self.edtSaldo.Text);
+  if self.cmbSaldo.Text = '+' then
+    self.contas_corrente.setSaldo(StrToFloat(self.edtSaldo.Text))
+  else
+    self.contas_corrente.setSaldo(StrToFloat(self.edtSaldo.Text));
+
+  if self.chkImpressaoBoleto.Checked = true then
+    self.contas_corrente.setImpressaoBoleto('S')
+  else
+    self.contas_corrente.setImpressaoBoleto('N');
+
+  if self.chkAtivo.Checked = true then
+    self.contas_corrente.setAtivo('S')
+  else
+    self.contas_corrente.setAtivo('N');
+end;
+
+
+function TfrmContasCorrente.VerificarCamposNulos;
+begin
+  if (self.edtAgencia.Text = '') or (self.edtDigitoAgencia.Text = '') or
+    (self.edtConta.Text = '') or (self.edtDigitoConta.Text = '') or
+    (self.edtBanco.Text = '') or (self.edtSaldo.Text = '') then
+    result := true
+  else
+    result := false;
+end;
+
+
+procedure TfrmContasCorrente.LimparCampos;
+begin
+  self.chkAtivo.Checked := true;
+  self.edtNome.Text := '';
+  self.edtAgencia.Text := '';
+  self.edtDigitoAgencia.Text := '';
+  self.edtConta.Text := '';
+  self.edtDigitoConta.Text := '';
+  self.edtBanco.Text := '';
+  self.edtIdBanco.Text := '';
+  self.chkImpressaoBoleto.Checked := false;
+  self.edtSaldo.Text := '';
+  self.cmbSaldo.ItemIndex := 0;
+end;
+
+
+procedure TfrmContasCorrente.FormActivate(Sender: TObject);
+begin
+  self.contas_corrente := ClassContasCorrente.cContasCorrente;
+  self.bancos := TfrmBancosCadastrados.Create(nil);
+end;
+
+
+procedure TfrmContasCorrente.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  self.contas_corrente.dConstasCorrente;
+  self.bancos.Destroy;
+end;
+
+
+procedure TfrmContasCorrente.btnSelecionarClick(Sender: TObject);
+begin
+  self.bancos.selecionar := true;
+  self.bancos.ShowModal;
+
+  self.edtBanco.Text := self.bancos.nome_banco;
+  self.edtIdBanco.Text := IntToStr(self.bancos.idbanco);
+end;
+
+procedure TfrmContasCorrente.btnVoltarClick(Sender: TObject);
+begin
+  self.LimparCampos;
+
+  self.Close;
+end;
+
+end.

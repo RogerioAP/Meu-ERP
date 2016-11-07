@@ -1,0 +1,131 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.pngimage,
+  Vcl.ExtCtrls, uGruposCF, uGruposCFCadastrados,
+  uTiposCobrancaCadastrados, uPlanoContasCadastradas, uTiposPagamentoCadastrados,
+  uContasPagarCadastradas, Vcl.Imaging.jpeg, uClientesFornecedorescadastrados,
+  uContasReceberCadastradas;
+
+type
+  TfrmPrincipal = class(TForm)
+    imgFinanceiro: TImage;
+    Label1: TLabel;
+    imgClienteFornecedor: TImage;
+    Label5: TLabel;
+    pnlFinanceiro: TPanel;
+    imgContasReceber: TImage;
+    Label4: TLabel;
+    Label2: TLabel;
+    imgContasPagar: TImage;
+    pnlClienteFornecedor: TPanel;
+    imgCadastrarCF: TImage;
+    Label6: TLabel;
+    imgCFCadastrados: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label12: TLabel;
+    imgTipoCobranca: TImage;
+    Label15: TLabel;
+    imgPlanoContas: TImage;
+    Label16: TLabel;
+    imgTipoPagamento: TImage;
+    Label17: TLabel;
+    Image1: TImage;
+    procedure imgClienteFornecedorClick(Sender: TObject);
+    procedure imgFinanceiroClick(Sender: TObject);
+    procedure imgCadastrarCFClick(Sender: TObject);
+    procedure imgCFCadastradosClick(Sender: TObject);
+    procedure imgTipoCobrancaClick(Sender: TObject);
+    procedure imgPlanoContasClick(Sender: TObject);
+    procedure imgContasPagarClick(Sender: TObject);
+    procedure imgTipoPagamentoClick(Sender: TObject);
+    procedure imgContasReceberClick(Sender: TObject);
+  private
+    cliente_fornecedorC : TfrmClieFornCadastrados;
+    cadastro_grupocf : TfrmGruposCF;
+    gruposcf_cadastrados : TfrmGruposCFCadastrados;
+    tipo_cobranca : TfrmTiposCobrancaCadastrados;
+    plano_contas : TfrmPlanoContasCadastradas;
+    contas_pagar : TfrmContasPagarcadastradas;
+    tipos_pc : TfrmTiposPagamentoCadastrados;
+    contas_receber : TfrmContasReceberCadastradas;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfrmPrincipal.imgFinanceiroClick(Sender: TObject);
+begin
+  pnlFinanceiro.Show;
+  pnlClienteFornecedor.Hide;
+end;
+
+
+procedure TfrmPrincipal.imgClienteFornecedorClick(Sender: TObject);
+begin
+  pnlClienteFornecedor.Show;
+  pnlFinanceiro.Hide;
+end;
+
+
+procedure TfrmPrincipal.imgCadastrarCFClick(Sender: TObject);
+begin
+  self.cliente_fornecedorC := TfrmClieForncadastrados.Create(nil);
+  self.cliente_fornecedorC.ShowModal;
+  self.cliente_fornecedorC.Destroy;
+end;
+
+procedure TfrmPrincipal.imgCFCadastradosClick(Sender: TObject);
+begin
+  self.gruposcf_cadastrados := TfrmGruposCFCadastrados.Create(nil);
+  self.gruposcf_cadastrados.ShowModal;
+  self.gruposcf_cadastrados.Destroy;
+end;
+
+procedure TfrmPrincipal.imgPlanoContasClick(Sender: TObject);
+begin
+  self.plano_contas := TfrmPlanoContasCadastradas.Create(nil);
+  self.plano_contas.ShowModal;
+  self.plano_contas.Destroy;
+end;
+
+procedure TfrmPrincipal.imgTipoCobrancaClick(Sender: TObject);
+begin
+  self.tipo_cobranca := TfrmTiposCobrancaCadastrados.Create(nil);
+  self.tipo_cobranca.ShowModal;
+  self.tipo_cobranca.Destroy;
+end;
+
+procedure TfrmPrincipal.imgTipoPagamentoClick(Sender: TObject);
+begin
+  self.tipos_pc := TfrmTiposPagamentoCadastrados.Create(nil);
+  self.tipos_pc.ShowModal;
+  self.tipos_pc.Destroy;
+end;
+
+procedure TfrmPrincipal.imgContasPagarClick(Sender: TObject);
+begin
+  self.contas_pagar := TfrmContasPagarCadastradas.Create(nil);
+  self.contas_pagar.ShowModal;
+  self.contas_pagar.Destroy;
+end;
+
+procedure TfrmPrincipal.imgContasReceberClick(Sender: TObject);
+begin
+  self.contas_receber := TfrmContasReceberCadastradas.Create(nil);
+  self.contas_receber.ShowModal;
+  self.contas_receber.Destroy;
+end;
+
+end.

@@ -1,0 +1,141 @@
+﻿object frmClieFornCadastrados: TfrmClieFornCadastrados
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Cliente/Fornecedores Cadastrados'
+  ClientHeight = 437
+  ClientWidth = 1205
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 9
+    Top = 24
+    Width = 1188
+    Height = 361
+    DataSource = DataSource1
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+  end
+  object btnVoltar: TButton
+    Left = 612
+    Top = 399
+    Width = 75
+    Height = 25
+    Caption = 'Voltar'
+    TabOrder = 1
+    OnClick = btnVoltarClick
+  end
+  object btnExcluir: TButton
+    Left = 531
+    Top = 399
+    Width = 75
+    Height = 25
+    Caption = 'Excluir'
+    TabOrder = 2
+    OnClick = btnExcluirClick
+  end
+  object btnNovo: TButton
+    Left = 450
+    Top = 399
+    Width = 75
+    Height = 25
+    Caption = 'Novo'
+    TabOrder = 3
+    OnClick = btnNovoClick
+  end
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 216
+    Top = 392
+  end
+  object ADOCommand1: TADOCommand
+    Connection = ADOConnection1
+    Parameters = <>
+    Left = 304
+    Top = 392
+  end
+  object ADOConnection1: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=123456;Persist Security Info=True;Us' +
+      'er ID=root;Data Source=MeuERP'
+    LoginPrompt = False
+    Left = 56
+    Top = 392
+  end
+  object ADOQuery1: TADOQuery
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      
+        'select idcliente_fornecedor as "C'#243'digo", nome_razaosocial as "No' +
+        'me/Raz'#227'o Social", apelido_nomefantasia as "Apelido/Nome Fantasia' +
+        '",'
+      
+        #9'cpf as "CPF", cnpj as "CNPJ", telefone as "Telefone", celular a' +
+        's "Celular", email as "Email", ativo as "Ativo"'
+      '    from cliente_fornecedor;')
+    Left = 152
+    Top = 392
+    object ADOQuery1Código: TAutoIncField
+      DisplayWidth = 7
+      FieldName = 'C'#243'digo'
+      ReadOnly = True
+    end
+    object ADOQuery1NomeRazãoSocial: TWideStringField
+      FieldName = 'Nome/Raz'#227'o Social'
+      Size = 45
+    end
+    object ADOQuery1ApelidoNomeFantasia: TWideStringField
+      FieldName = 'Apelido/Nome Fantasia'
+      Size = 45
+    end
+    object ADOQuery1CPF: TWideStringField
+      DisplayWidth = 14
+      FieldName = 'CPF'
+      Size = 45
+    end
+    object ADOQuery1CNPJ: TWideStringField
+      DisplayWidth = 14
+      FieldName = 'CNPJ'
+      Size = 45
+    end
+    object ADOQuery1Telefone: TWideStringField
+      DisplayWidth = 14
+      FieldName = 'Telefone'
+      Size = 45
+    end
+    object ADOQuery1Celular: TWideStringField
+      DisplayWidth = 14
+      FieldName = 'Celular'
+      Size = 45
+    end
+    object ADOQuery1Email: TWideStringField
+      DisplayWidth = 27
+      FieldName = 'Email'
+      Size = 45
+    end
+    object ADOQuery1Ativo: TWideStringField
+      FieldName = 'Ativo'
+      FixedChar = True
+      Size = 1
+    end
+  end
+end
